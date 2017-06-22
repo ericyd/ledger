@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const router = express.Router();
+const users = require('./controllers/users');
 
 //
 // Set up server
@@ -30,10 +31,13 @@ app.get('/', function(request, response) {
   response.render('index.html');
 });
 
-// get all theaters
+// get examples
 router.route('/example').get(function(req, res) {
   res.json({ example: 'example' });
 });
+
+// post must have json body
+router.route('/users').get(users.getAllUsers).post(users.addUser);
 
 app.use('/', router);
 

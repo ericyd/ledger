@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const dbName = 'ledger';
 const port = 27017;
 const dbUrl = process.env.NODE_ENV !== 'production'
-  ? `mongodb://localhost:${port}`
+  ? `mongodb://localhost:${port}/${dbName}`
   : // from mongo atlas
     `mongodb://${process.env.MONGO_ATLAS_UN}:${process.env
       .MONGO_ATLAS_PW}@ericyd-shard-00-00-zcxzt.mongodb.net:${port},ericyd-shard-00-01-zcxzt.mongodb.net:${port},ericyd-shard-00-02-zcxzt.mongodb.net:${port}/${dbName}?ssl=true&replicaSet=ericyd-shard-0&authSource=admin`;
