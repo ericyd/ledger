@@ -30,12 +30,10 @@ app.get('/', function(request, response) {
   response.render('index.html');
 });
 
-
 // get all theaters
 router.route('/example').get(function(req, res) {
-  res.json({example: 'example'});
+  res.json({ example: 'example' });
 });
-
 
 app.use('/', router);
 

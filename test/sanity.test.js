@@ -1,4 +1,4 @@
-const { test } = require('ava')
+const { test } = require('ava');
 
 test('sanity 1', t => {
   t.pass();
