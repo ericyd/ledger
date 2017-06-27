@@ -7,6 +7,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const router = express.Router();
 const users = require('./controllers/users');
+const transactions = require('./controllers/transactions');
 
 //
 // Set up server
@@ -14,31 +15,32 @@ const users = require('./controllers/users');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('port', process.env.PORT || 5000);
-// serves all files in public as static files
-app.use(express.static(__dirname + '/public'));
+// serve all files in public as static files.
 // since public/index.html looks for ../dist/index.js,
 // giving the dist files the path prefix of dist ensures that they can be found.
+app.use(express.static(__dirname + '/public'));
 app.use('/dist', express.static('dist'));
 
 //
-// Set up routes
+// Assume client side routing.
+// unless route is defined below, serve this default
 //
-// route() will allow you to use same path for different HTTP operation.
-// So if you have same URL but with different HTTP OP such as POST,GET etc
-// Then use route() to remove redundant code.
-
-app.get('/', function(request, response) {
+router.route('*', function(request, response) {
   response.render('index.html');
 });
 
-// get examples
-router.route('/example').get(function(req, res) {
-  res.json({ example: 'example' });
-});
-
-// post must have json body
+//
+// Define JSON routes
+//
 router.route('/users').get(users.getAllUsers).post(users.addUser);
+router
+  .route('/transactions/:userId')
+  .get(transactions.getAllUserTransaction)
+  .post(transactions.addTransaction);
 
+//
+// Use the router as the default
+//
 app.use('/', router);
 
 app.listen(app.get('port'), function() {
