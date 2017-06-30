@@ -1,0 +1,31 @@
+<div id='main' class='wrapper'>
+
+</div>
+
+
+<script>
+  import LoginForm from './LoginForm';
+  let loginForm;
+
+  export default {
+    data() {
+        return {}
+    },
+    components: {
+    },
+    methods: {
+      onAuth() {
+        // when authenticated, destroy login form
+        loginForm.destroy();
+      }
+    },
+    oncreate() {
+      const auth = localStorage.getItem('auth');
+      if (!auth) {
+        loginForm = new LoginForm({
+          target: document.getElementById('main')
+        })
+      }
+    }
+  }
+</script>

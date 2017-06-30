@@ -1,4 +1,47 @@
-body {
-  color: #222;
-  background-color: #fdfefd;
-}
+//
+// Colors
+//
+
+// Cutestrap, with overrides
+// https://github.com/tylerchilds/cutestrap/blob/master/dist/scss/variables/_colors.scss
+
+$primary: #7CB7DE;
+$primary-dark: darken($primary, 5%) !default;
+
+$link: #4076D4 !default;
+$link--visited: #9140D4 !default;
+$link--hover: darken($link, 5%) !default;
+$link--active: #7CB7DE;
+
+// Personal additions
+$body-bg: #fdfdfd;
+$body-color: #222;
+
+//
+// Fonts
+//
+
+// Cutestrap, with overrides
+// https://github.com/tylerchilds/cutestrap/blob/master/dist/scss/variables/_type.scss
+$base-font: 'Avenir',
+  'Avenir Next',
+  'Helvetica Neue',
+  'Segoe UI',
+  'Verdana',
+  sans-serif !default;
+$monospace-font: 'Consolas', 'Monaco', 'Courier New', monospace !default;
+
+$heading: $base-font !default;
+$body: $base-font !default;
+$monospace: $monospace-font !default;
+
+$font-size: 1.6rem !default;
+$line-height: 2.4rem !default;
+
+$font-size--small: 1.2rem !default;
+$font-size--large: 2rem !default;
+$font-family-base: sans-serif;
+$font-weight-base: normal;
+
+@import '../node_modules/cutestrap/dist/scss/cutestrap';
+@import './css/body';

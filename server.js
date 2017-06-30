@@ -32,7 +32,8 @@ router.route('*', function(request, response) {
 //
 // Define JSON routes
 //
-router.route('/users').get(users.getAllUsers).post(users.addUser);
+router.route('/users').post(users.addUser);
+router.route('/auth').post(users.authenticateUser);
 router
   .route('/transactions/:userId')
   .get(transactions.getTransactionsByUserId)
