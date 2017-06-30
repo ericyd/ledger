@@ -35,8 +35,9 @@ router.route('*', function(request, response) {
 router.route('/users').get(users.getAllUsers).post(users.addUser);
 router
   .route('/transactions/:userId')
-  .get(transactions.getAllUserTransaction)
-  .post(transactions.addTransaction);
+  .get(transactions.getTransactionsByUserId)
+  .post(transactions.addTransaction)
+  .put(transactions.updateTransaction);
 
 //
 // Use the router as the default

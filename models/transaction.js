@@ -27,4 +27,8 @@ const transactionSchema = new Schema({
   dateCreated: Date
 });
 
+transactionSchema.statics.getTransactionsByUserId = (userId, cb) => {
+  self.find({ userId: userId }, cb);
+}
+
 module.exports = mongoose.model('transaction', transactionSchema);

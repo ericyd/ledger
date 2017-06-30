@@ -1,7 +1,7 @@
 const Transaction = require('../models/transaction');
 
-exports.getAllUserTransaction = function(req, res) {
-  Transaction.find({ userId: req.params.userId }, (err, data) => {
+exports.getTransactionsByUserId = function(req, res) {
+  Transaction.getTransactionsByUserId(req.params.userId, (err, data) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -30,3 +30,7 @@ exports.addTransaction = function(req, res) {
     }
   });
 };
+
+exports.updateTransaction = function(req, res) {
+
+}
