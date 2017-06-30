@@ -67,13 +67,13 @@ exports.addUser = function(req, res) {
         user.email = req.body.email;
         user.balance = 0;
         user.dateCreated = new Date();
-        user.save(function(err) {
+        user.save(function(err, user) {
           // save() will run insert() command of MongoDB.
           // it will add new data in collection.
           if (err) {
             res.sendStatus(500);
           } else {
-            res.json({ error: false, message: 'Data added' });
+            res.json({ error: false, message: 'Data added', id: user.id });
           }
         });
       }

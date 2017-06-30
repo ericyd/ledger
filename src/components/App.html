@@ -1,31 +1,71 @@
 <div id='main' class='wrapper'>
-
+  {{#if auth}}
+    <button on:click="handleLogOut()">Log out</button>
+    <div id='userSummary'></div>
+  {{else}}
+    <div id='form'></div>
+    {{#if !signingUp}}
+      <button on:click="selectSignup()">Sign up</button>
+    {{/if}}
+  {{/if}}
 </div>
 
 
 <script>
+  import SignupForm from './SignupForm';
   import LoginForm from './LoginForm';
-  let loginForm;
+  import UserSummary from './UserSummary';
+  let loginForm, signupForm, userSummary, loginListener;
+
 
   export default {
     data() {
-        return {}
+      return {
+        auth: localStorage.getItem('auth'),
+        signingUp: false
+      }
     },
     components: {
     },
     methods: {
-      onAuth() {
-        // when authenticated, destroy login form
+      selectSignup() {
+        this.set({signingUp: true})
+        loginListener.cancel();
         loginForm.destroy();
+        signupForm = new SignupForm({
+          target: document.getElementById('form')
+        })
+        const signupListener = signupForm.on('signedUp', event => {
+          console.log(event);
+          loginForm.destroy();
+          this.set({auth: true});
+          userSummary.set({
+            balance: event.balance,
+            transactions: event.transactions
+          })
+        })
+      },
+      handleLogOut() {
+        this.set({auth: false});
+        localStorage.removeItem('auth');
       }
     },
     oncreate() {
-      const auth = localStorage.getItem('auth');
-      if (!auth) {
-        loginForm = new LoginForm({
-          target: document.getElementById('main')
+      loginForm = new LoginForm({
+        target: document.getElementById('form')
+      })
+      userSummary = new UserSummary({
+        target: document.getElementById('userSummary')
+      })
+      loginListener = loginForm.on('loggedIn', event => {
+        console.log(event);
+        loginForm.destroy();
+        this.set({auth: true});
+        userSummary.set({
+          balance: event.balance,
+          transactions: event.transactions
         })
-      }
+      })
     }
   }
 </script>
