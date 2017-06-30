@@ -19,6 +19,10 @@ const db = mongoose.connect(dbUrl);
 //
 const userSchema = new Schema({
   name: String,
+  username: String,
+  password: String,
+  salt: String,
+  email: String,
   balance: Number,
   dateCreated: Date
 });
