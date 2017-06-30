@@ -29,6 +29,6 @@ const transactionSchema = new Schema({
 
 transactionSchema.statics.getTransactionsByUserId = (userId, cb) => {
   self.find({ userId: userId }, cb);
-}
+};
 
 module.exports = mongoose.model('transaction', transactionSchema);

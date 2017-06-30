@@ -4,25 +4,25 @@ const transactions = require('../model/transaction');
 
 exports.authenticateUser = function(req, res) {
   // TODO: could this be improved?
-  User.find({username: req.body.username}, (err, user) => {
+  User.find({ username: req.body.username }, (err, user) => {
     if (err) {
       res.sendStatus(500);
     } else {
       const reqPass = bcrypt.hashSync(req.body.password, user.salt);
       bcrypt.compare(reqPass, user.password, (err, match) => {
-          if (err) return res.sendStatus(500);
-          // if it matches return the transactions for that user
-          if (match) {
-            Transaction.getTransactionsByUserId(user.id, (err, data) => {
-              if (err) {
-                res.sendStatus(500)
-              } else {
-                res.json(data);
-              }
-            })
-          }
-          res.sendStatus(401);
-      })
+        if (err) return res.sendStatus(500);
+        // if it matches return the transactions for that user
+        if (match) {
+          Transaction.getTransactionsByUserId(user.id, (err, data) => {
+            if (err) {
+              res.sendStatus(500);
+            } else {
+              res.json(data);
+            }
+          });
+        }
+        res.sendStatus(401);
+      });
     }
   });
 };
@@ -49,5 +49,3 @@ exports.addUser = function(req, res) {
     }
   });
 };
-
-
