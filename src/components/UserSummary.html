@@ -1,17 +1,27 @@
 <div>
+  Hi {{name}}<br />
   Balance: <br />
   {{balance}} <br />
+  <AddTransaction />
   Transactions: <br />
-  {{transactions}}
+  <TransactionTable transactions={{transactions}}/>
+
 </div>
 
 <script>
+  import TransactionTable from './TransactionTable';
+  import AddTransaction from './AddTransaction';
+
   export default {
     data() {
       return {
         balance: 0,
         transactions: []
       }
+    },
+    components: {
+      TransactionTable,
+      AddTransaction
     }
   }
 </script>

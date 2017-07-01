@@ -3,9 +3,10 @@
     <button on:click="handleLogOut()">Log out</button>
     <UserSummary balance={{balance}}
       transactions={{transactions}}
-      username={{username}}/>
+      name={{name}}/>
   {{else}}
-    <LoginSignup on:submit="handleAuth(e)"/>
+    <!--note: svelte requires this parameter to be consistently named 'event'-->
+    <LoginSignup on:submit="handleAuth(event)"/>
   {{/if}}
 </div>
 
@@ -24,55 +25,26 @@
       }
     },
     components: {
+      UserSummary,
+      LoginSignup
     },
     methods: {
-      // selectSignup() {
-      //   this.set({signingUp: true})
-      //   loginListener.cancel();
-      //   loginForm.destroy();
-      //   signupForm = new SignupForm({
-      //     target: document.getElementById('form')
-      //   })
-      //   const signupListener = signupForm.on('signedUp', event => {
-      //     console.log(event);
-      //     loginForm.destroy();
-      //     this.set({auth: true});
-      //     userSummary.set({
-      //       balance: event.balance,
-      //       transactions: event.transactions
-      //     })
-      //   })
-      // },
       handleLogOut() {
         this.set({auth: false});
         localStorage.removeItem('auth');
       },
-      handleAuth(e) {
+      handleAuth(event) {
         this.set({
-          balance: e.balance,
-          transactions: e.transactions,
-          name: e.name,
-          auth: true
+          balance: event.balance,
+          transactions: event.transactions,
+          name: event.name,
+          auth: event.id
         });
-        localStorage.setItem('auth', e.id);
+        localStorage.setItem('auth', event.id);
       }
     },
     oncreate() {
-      // loginForm = new LoginForm({
-      //   target: document.getElementById('form')
-      // })
-      // userSummary = new UserSummary({
-      //   target: document.getElementById('userSummary')
-      // })
-      // loginListener = loginForm.on('loggedIn', event => {
-      //   console.log(event);
-      //   loginForm.destroy();
-      //   this.set({auth: true});
-      //   userSummary.set({
-      //     balance: event.balance,
-      //     transactions: event.transactions
-      //   })
-      // })
+      // TODO: fetch user data based on localstorage auth
     }
   }
 </script>
