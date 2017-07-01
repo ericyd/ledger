@@ -1,71 +1,78 @@
 <div id='main' class='wrapper'>
   {{#if auth}}
     <button on:click="handleLogOut()">Log out</button>
-    <div id='userSummary'></div>
+    <UserSummary balance={{balance}}
+      transactions={{transactions}}
+      username={{username}}/>
   {{else}}
-    <div id='form'></div>
-    {{#if !signingUp}}
-      <button on:click="selectSignup()">Sign up</button>
-    {{/if}}
+    <LoginSignup on:submit="handleAuth(e)"/>
   {{/if}}
 </div>
 
 
 <script>
-  import SignupForm from './SignupForm';
-  import LoginForm from './LoginForm';
+  import LoginSignup from './LoginSignup';
   import UserSummary from './UserSummary';
-  let loginForm, signupForm, userSummary, loginListener;
-
 
   export default {
     data() {
       return {
         auth: localStorage.getItem('auth'),
-        signingUp: false
+        balance: 0,
+        transactions: [],
+        name: ''
       }
     },
     components: {
     },
     methods: {
-      selectSignup() {
-        this.set({signingUp: true})
-        loginListener.cancel();
-        loginForm.destroy();
-        signupForm = new SignupForm({
-          target: document.getElementById('form')
-        })
-        const signupListener = signupForm.on('signedUp', event => {
-          console.log(event);
-          loginForm.destroy();
-          this.set({auth: true});
-          userSummary.set({
-            balance: event.balance,
-            transactions: event.transactions
-          })
-        })
-      },
+      // selectSignup() {
+      //   this.set({signingUp: true})
+      //   loginListener.cancel();
+      //   loginForm.destroy();
+      //   signupForm = new SignupForm({
+      //     target: document.getElementById('form')
+      //   })
+      //   const signupListener = signupForm.on('signedUp', event => {
+      //     console.log(event);
+      //     loginForm.destroy();
+      //     this.set({auth: true});
+      //     userSummary.set({
+      //       balance: event.balance,
+      //       transactions: event.transactions
+      //     })
+      //   })
+      // },
       handleLogOut() {
         this.set({auth: false});
         localStorage.removeItem('auth');
+      },
+      handleAuth(e) {
+        this.set({
+          balance: e.balance,
+          transactions: e.transactions,
+          name: e.name,
+          auth: true
+        });
+        localStorage.setItem('auth', e.id);
       }
     },
     oncreate() {
-      loginForm = new LoginForm({
-        target: document.getElementById('form')
-      })
-      userSummary = new UserSummary({
-        target: document.getElementById('userSummary')
-      })
-      loginListener = loginForm.on('loggedIn', event => {
-        console.log(event);
-        loginForm.destroy();
-        this.set({auth: true});
-        userSummary.set({
-          balance: event.balance,
-          transactions: event.transactions
-        })
-      })
+      // loginForm = new LoginForm({
+      //   target: document.getElementById('form')
+      // })
+      // userSummary = new UserSummary({
+      //   target: document.getElementById('userSummary')
+      // })
+      // loginListener = loginForm.on('loggedIn', event => {
+      //   console.log(event);
+      //   loginForm.destroy();
+      //   this.set({auth: true});
+      //   userSummary.set({
+      //     balance: event.balance,
+      //     transactions: event.transactions
+      //   })
+      // })
     }
   }
 </script>

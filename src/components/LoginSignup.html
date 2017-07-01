@@ -1,6 +1,27 @@
+<h2>
+  {{#if signingUp}}
+  Sign up
+  {{else}}
+  Log in
+  {{/if}}
+</h2>
+<button on:click="toggleSigningUp()"
+  class='btn--secondary'>
+  {{#if signingUp}}
+  Click here to log in
+  {{else}}
+  Click here to sign up
+  {{/if}}
+</button>
 <form  on:submit='handleSubmit( event )'>
   {{#if err}}
-    {{err}}
+    <span class='error'>{{err}}</span>
+  {{/if}}
+  {{#if signingUp}}
+  <label class="textfield" for="name">
+    <input type="text" id="name" name="name"/>
+    <span class="textfield__label">Your Name</span>
+  </label>
   {{/if}}
   <label class="textfield" for="username">
     <input type="text" id="username" name="username"/>
@@ -11,7 +32,7 @@
     <span class="textfield__label">Password</span>
   </label>
   <br/>
-  <input type="submit" value="Log in" />
+  <input type="submit" value="Sign up" />
 </form>
 
 <script>
@@ -20,31 +41,40 @@
   export default {
     data() {
       return {
-        err: null
+        err: null,
+        signingUp: false
       }
     },
     methods: {
+      toggleSigningUp() {
+        const signingUp = this.get('signingUp');
+        this.set({signingUp: !signingUp});
+      },
       handleSubmit(e) {
         const self = this;
 
         e.preventDefault();
-        axios.post('/auth', {
+        const url = signingUp ? '/users' : '/login';
+        axios.post(url, {
+          name: e.target.elements.name.value,
           username: e.target.elements.username.value,
           password: e.target.elements.password.value
         }).then(response => {
-          if (response.data.message) {
-            localStorage.setItem('auth', response.data.id);
-            self.fire('loggedIn', {
+          console.log(response);
+          if (response.data.id) {
+            // localStorage.setItem('auth', response.data.id);
+            self.fire('submit', {
               // on sign up, balance will be 0 and there will be no transactions
               balance: response.data.balance,
               transactions: response.data.transactions,
-              message: response.data.message
+              id: response.data.id,
+              name: response.data.name
             });
           } else {
             self.set({err: response.data.error});
           }
         }).catch(err => {
-          self.set({err: err});
+          self.set({err: err.message});
         })
       }
     }

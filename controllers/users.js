@@ -25,9 +25,12 @@ exports.authenticateUser = function(req, res) {
                     res.sendStatus(500);
                   } else {
                     res.json({
+                      error: false,
                       message: 'look at you, loggin in like a pro',
+                      id: user.id,
                       balance: user.balance,
-                      transactions: transactions
+                      transactions: transactions,
+                      name: user.name
                     });
                   }
                 }
@@ -73,7 +76,14 @@ exports.addUser = function(req, res) {
           if (err) {
             res.sendStatus(500);
           } else {
-            res.json({ error: false, message: 'Data added', id: user.id });
+            res.json({
+              error: false,
+              message: 'User added',
+              id: user.id,
+              balance: user.balance,
+              transactions: [],
+              name: user.name
+            });
           }
         });
       }
