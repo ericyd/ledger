@@ -1,12 +1,15 @@
-<div>
-  Hi {{name}}<br />
-  Balance: <br />
-  {{balance}} <br />
-  <AddTransaction />
-  Transactions: <br />
-  <TransactionTable transactions={{transactions}}/>
-
-</div>
+<section class='grid grid--medium'>
+  <div>
+    Hi {{name}}<br />
+    Balance: <br />
+    {{balance}} <br />
+    <AddTransaction />
+  </div>
+  <div>
+    Transactions: <br />
+    <TransactionTable transactions={{transactions}}/>
+  </div>
+</section>
 
 <script>
   import TransactionTable from './TransactionTable';

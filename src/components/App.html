@@ -1,6 +1,6 @@
 <div id='main' class='wrapper'>
   {{#if auth}}
-    <button on:click="handleLogOut()">Log out</button>
+    <button on:click="handleLogOut()" class="btn--secondary">Log out</button>
     <UserSummary balance={{balance}}
       transactions={{transactions}}
       name={{name}}/>
