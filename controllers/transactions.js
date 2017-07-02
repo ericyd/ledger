@@ -16,10 +16,11 @@ exports.addTransaction = function(req, res) {
   transaction.location = req.body.location;
   transaction.amount = req.body.amount;
   transaction.userId = req.params.userId;
+  transaction.transactionDate = new Date(req.body.date);
   const now = new Date();
   transaction.dateCreated = now;
   transaction.dateModified = now;
-  transaction.archived = false;
+  transaction.archived = req.body.archived ? req.body.archived : false;
 
   transaction.save(function(err) {
     if (err) {

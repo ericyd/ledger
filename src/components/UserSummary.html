@@ -3,7 +3,7 @@
     Hi {{name}}<br />
     Balance: <br />
     {{balance}} <br />
-    <AddTransaction />
+    <AddTransaction on:transactionAdded="handleAddTransaction(event)"/>
   </div>
   <div>
     Transactions: <br />
@@ -25,6 +25,15 @@
     components: {
       TransactionTable,
       AddTransaction
+    },
+    methods: {
+      handleAddTransaction(event) {
+        transactions.push({
+          event.amount,
+          event.category,
+          event.location
+        })
+      }
     }
   }
 </script>

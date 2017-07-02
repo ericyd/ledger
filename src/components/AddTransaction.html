@@ -7,16 +7,71 @@
     <input type="text" id="amount" name="amount"/>
     <span class="textfield__label">Amount</span>
   </label>
+  <label class="checkbox" for="deposit">
+    <input type="checkbox" name="deposit" id="deposit" />
+    <span class="checkbox__label">Deposit</span>
+  </label>
+  <label class="select" for="category">
+    <select name="category" id="category">
+      <option disabled="disabled" selected="selected">Category</option>
+      {{#each categories as category}}
+      <option value="{{category}}">{{category}}</option>
+      {{/each}}
+    </select>
+    <span class="select__label" for="select">Category</span>
+  </label>
+  <label class="textfield" for="date">
+    <input type="text" id="date" name="date"/>
+    <span class="textfield__label">Date</span>
+  </label>
 </form>
 
+
+
 <script>
+  const axios = require('axios');
+
   export default {
     data() {
-      return {}
+      return {
+        categories: [
+          "Groceries",
+          "Bills (rent, utilities, etc)",
+          "Eating out",
+          "Vices",
+          "Recreational",
+          "House stuff",
+          "Gifts/Donations"
+        ]
+      }
     },
     methods: {
       handleSubmit(event) {
+        const self = this;
+        const deposit = event.target.elements.deposit.value;
+        // amount should be negative unless it is a deposit
+        const amount = deposit ? event.target.elements.deposit.value : event.target.elements.deposit.value * -1;
+        // send a blank string as category if nothing selected
+        const category = event.target.elements.category.value ? event.target.elements.category.value : '';
+        const location = event.target.elements.location.value;
+        const date = event.target.elements.date.value;
 
+        console.log(amount, deposit, category, localStorage.getItem('auth'))
+        axios.post(`/transactions/${localStorage.getItem('auth')}`, {
+          amount,
+          location,
+          category,
+          date
+        }).then(response => {
+          self.fire('transactionAdded', {
+            amount,
+            location,
+            category,
+            date
+          })
+        }).catch(err => {
+          alert('whoops, there was an error! Go bug Eric and tell him something messed up');
+        })
       }
     }
   }

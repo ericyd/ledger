@@ -23,6 +23,7 @@ const transactionSchema = new Schema({
   location: String,
   archived: Boolean,
   category: String,
+  transactionDate: Date,
   dateModified: Date,
   dateCreated: Date
 });

@@ -1,5 +1,16 @@
 <table>
+  <tr>
+    <td>Location</td>
+    <td>Amount</td>
+    <td>Category</td>
+    <td>Date</td>
+  </tr>
   {{#each transactions as transaction}}
-    {{transaction}}
+    <tr>
+      <td>{{transaction.location}}</td>
+      <td>{{transaction.amount}}</td>
+      <td>{{transaction.category}}</td>
+      <td>{{transaction.date}}</td>
+    </tr>
   {{/each}}
 </table>
