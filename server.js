@@ -33,6 +33,7 @@ router.route('*', function(request, response) {
 // Define JSON routes
 //
 router.route('/users').post(users.addUser);
+router.route('/users/:userId').get(users.getNameAndBalance);
 router.route('/login').post(users.authenticateUser);
 router
   .route('/transactions/:userId')

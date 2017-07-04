@@ -14,6 +14,7 @@
 <script>
   import LoginSignup from './LoginSignup';
   import UserSummary from './UserSummary';
+  const axios = require('axios');
 
   export default {
     data() {
@@ -21,7 +22,8 @@
         auth: localStorage.getItem('auth'),
         balance: 0,
         transactions: [],
-        name: ''
+        name: '',
+        err: null
       }
     },
     components: {
@@ -44,7 +46,26 @@
       }
     },
     oncreate() {
-      // TODO: fetch user data based on localstorage auth
+      // if authenticated, populate user data
+      if (this.get('auth')) {
+        axios.get(`/users/${this.get('auth')}`)
+        .then(userRes => {
+          this.set({
+            name: userRes.data.name,
+            balance: userRes.data.balance
+          })
+          // once received user data, get transactions
+          return axios.get(`/transactions/${this.get('auth')}`);
+        })
+        .then(transactionRes => {
+          this.set({
+            transactions: transactionRes.data.transactions
+          })
+        })
+        .catch(err => {
+          this.set({err: err})
+        })
+      }
     }
   }
 </script>

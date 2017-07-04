@@ -64,7 +64,7 @@ userSchema.statics.getIdByName = function(name) {
     // https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose
     self.findOne(
       { name: name },
-      [id], // Columns to Return (blank returns all)
+      ['id'], // Columns to Return (blank returns all)
       function(err, data) {
         if (err) {
           reject({ error: true, message: 'Error fetching data' });

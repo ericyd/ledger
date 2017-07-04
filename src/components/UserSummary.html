@@ -1,38 +1,62 @@
 <section class='grid grid--medium'>
   <div>
-    Hi {{name}}<br />
+    Hi {{#if name === ''}}<Spinner />{{else}}{{name}}{{/if}}<br />
     Balance: <br />
-    {{balance}} <br />
-    <AddTransaction on:transactionAdded="handleAddTransaction(event)"/>
+    {{#if name === ''}}<Spinner />{{else}}{{balance}}{{/if}}<br />
+    Add transaction:
+    <AddTransaction
+      on:beginTransactionAdd="beginTransactionAdd(event)"
+      on:successTransactionAdd="successTransactionAdd(event)"
+      on:errorTransactionAdd="errorTransactionAdd(event)" />
   </div>
   <div>
     Transactions: <br />
-    <TransactionTable transactions={{transactions}}/>
+    <TransactionTable transactions={{transactions}} processing={{processing}}/>
   </div>
 </section>
 
 <script>
   import TransactionTable from './TransactionTable';
   import AddTransaction from './AddTransaction';
+  import Spinner from './Spinner';
 
   export default {
     data() {
       return {
         balance: 0,
-        transactions: []
+        transactions: [],
+        processing: false
       }
     },
     components: {
       TransactionTable,
-      AddTransaction
+      AddTransaction,
+      Spinner
     },
     methods: {
-      handleAddTransaction(event) {
-        transactions.push({
-          event.amount,
-          event.category,
-          event.location
-        })
+      beginTransactionAdd(event) {
+        let transactions = this.get('transactions');
+        const newTransaction = {
+          amount: event.amount,
+          category: event.category,
+          location: event.location,
+          date: event.date
+        };
+        if (transactions) {
+          transactions.unshift(newTransaction);
+        } else {
+          transactions = [newTransaction];
+        }
+        this.set({ transactions: transactions, processing: true });
+      },
+      successTransactionAdd(event) {
+        // remove temporary disabled styling
+        this.set({ processing: false });
+      },
+      errorTransactionAdd(event) {
+        const transactions = this.get('transactions');
+        transactions.shift();
+        this.set({ transactions: transactions, processing: true });
       }
     }
   }

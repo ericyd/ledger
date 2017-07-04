@@ -90,3 +90,20 @@ exports.addUser = function(req, res) {
     }
   });
 };
+
+exports.getNameAndBalance = function(req, res) {
+  User.findById(req.params.userId, ['name', 'balance'], (err, user) => {
+    if (err) {
+      res
+        .status(500)
+        .json({ error: true, message: 'Could not retrieve user details!' });
+    } else {
+      res.json({
+        error: false,
+        message: 'got user details',
+        name: user.name,
+        balance: user.balance
+      });
+    }
+  });
+};

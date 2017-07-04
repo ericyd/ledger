@@ -24,6 +24,8 @@
     <input type="text" id="date" name="date"/>
     <span class="textfield__label">Date</span>
   </label>
+
+  <button type="submit">Add transaction</button>
 </form>
 
 
@@ -41,35 +43,47 @@
           "Vices",
           "Recreational",
           "House stuff",
-          "Gifts/Donations"
+          "Gifts/Donations",
+          "Pay day",
+          "Other"
         ]
       }
     },
     methods: {
       handleSubmit(event) {
+        event.preventDefault();
         const self = this;
         const deposit = event.target.elements.deposit.value;
         // amount should be negative unless it is a deposit
-        const amount = deposit ? event.target.elements.deposit.value : event.target.elements.deposit.value * -1;
+        const amount = deposit === 'on' ? event.target.elements.amount.value : event.target.elements.amount.value * -1;
         // send a blank string as category if nothing selected
         const category = event.target.elements.category.value ? event.target.elements.category.value : '';
         const location = event.target.elements.location.value;
         const date = event.target.elements.date.value;
 
-        console.log(amount, deposit, category, localStorage.getItem('auth'))
+        // console.log(amount, deposit, category, localStorage.getItem('auth'))
+        self.fire('beginTransactionAdd', {
+          amount,
+          location,
+          category,
+          date
+        })
         axios.post(`/transactions/${localStorage.getItem('auth')}`, {
           amount,
           location,
           category,
           date
         }).then(response => {
-          self.fire('transactionAdded', {
+          self.fire('successTransactionAdd', {
             amount,
             location,
             category,
             date
           })
         }).catch(err => {
+          self.fire('errorTransactionAdd', {
+            error: err
+          })
           alert('whoops, there was an error! Go bug Eric and tell him something messed up');
         })
       }

@@ -1,3 +1,6 @@
+{{#if transactions.length === 0}}
+<Spinner />
+{{else}}
 <table>
   <tr>
     <td>Location</td>
@@ -6,7 +9,7 @@
     <td>Date</td>
   </tr>
   {{#each transactions as transaction}}
-    <tr>
+    <tr class="{{processing ? 'processing' : ''}}">
       <td>{{transaction.location}}</td>
       <td>{{transaction.amount}}</td>
       <td>{{transaction.category}}</td>
@@ -14,3 +17,16 @@
     </tr>
   {{/each}}
 </table>
+{{/if}}
+
+<script>
+  import Spinner from './Spinner';
+  export default {
+    data() {
+      return {}
+    },
+    components: {
+      Spinner
+    }
+  }
+</script>
