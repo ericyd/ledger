@@ -13,7 +13,7 @@
       <td>{{transaction.location}}</td>
       <td>{{transaction.amount}}</td>
       <td>{{transaction.category}}</td>
-      <td>{{transaction.date}}</td>
+      <td>{{formatDate(new Date(transaction.transactionDate))}}</td>
     </tr>
   {{/each}}
 </table>
@@ -21,12 +21,17 @@
 
 <script>
   import Spinner from './Spinner';
+  const formatDate = require('../formatDate');
+
   export default {
     data() {
       return {}
     },
     components: {
       Spinner
+    },
+    helpers: {
+      formatDate
     }
   }
 </script>

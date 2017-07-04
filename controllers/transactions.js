@@ -1,11 +1,11 @@
 const Transaction = require('../models/transaction');
 
 exports.getTransactionsByUserId = function(req, res) {
-  Transaction.getTransactionsByUserId(req.params.userId, (err, data) => {
+  Transaction.getTransactionsByUserId(req.params.userId, (err, transactions) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json({ error: false, message: data });
+      res.json({ error: false, message: 'found the data', transactions: transactions });
     }
   });
 };
@@ -17,6 +17,7 @@ exports.addTransaction = function(req, res) {
   transaction.amount = req.body.amount;
   transaction.userId = req.params.userId;
   transaction.transactionDate = new Date(req.body.date);
+  transaction.category = req.body.category;
   const now = new Date();
   transaction.dateCreated = now;
   transaction.dateModified = now;
