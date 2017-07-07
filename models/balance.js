@@ -23,4 +23,4 @@ const balanceSchema = new Schema({
   date: Date
 });
 
-module.exports = mongoose.model('balance', balance);
+module.exports = mongoose.model('balance', balanceSchema);

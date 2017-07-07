@@ -3,17 +3,17 @@
 {{else}}
 <table>
   <tr>
-    <td>Location</td>
-    <td>Amount</td>
-    <td>Category</td>
-    <td>Date</td>
+    <th><b>Location</b></th>
+    <th><b>Amount</b></th>
+    <th><b>Category</b></th>
+    <th><b>Date</b></th>
   </tr>
   {{#each transactions as transaction}}
     <tr class="{{processing ? 'processing' : ''}}">
       <td>{{transaction.location}}</td>
       <td>{{transaction.amount}}</td>
       <td>{{transaction.category}}</td>
-      <td>{{formatDate(new Date(transaction.transactionDate))}}</td>
+      <td>{{formatDate(transaction.transactionDate)}}</td>
     </tr>
   {{/each}}
 </table>

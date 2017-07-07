@@ -19,6 +19,7 @@
   import TransactionTable from './TransactionTable';
   import AddTransaction from './AddTransaction';
   import Spinner from './Spinner';
+  const formatDate = require('../formatDate');
 
   export default {
     data() {
@@ -36,18 +37,24 @@
     methods: {
       beginTransactionAdd(event) {
         let transactions = this.get('transactions');
+        const balance = this.get('balance');
         const newTransaction = {
           amount: event.amount,
           category: event.category,
           location: event.location,
-          date: event.date
+          transactionDate: event.transactionDate
         };
+        console.log(newTransaction)
         if (transactions) {
           transactions.unshift(newTransaction);
         } else {
           transactions = [newTransaction];
         }
-        this.set({ transactions: transactions, processing: true });
+        this.set({
+          transactions: transactions,
+          processing: true,
+          balance: Number(balance) + Number(event.amount)
+        });
       },
       successTransactionAdd(event) {
         // remove temporary disabled styling
