@@ -1,8 +1,7 @@
 <section class='grid grid--medium'>
   <div>
-    Hi {{#if name === ''}}<Spinner />{{else}}{{name}}{{/if}}<br />
-    Balance: <br />
-    {{#if name === ''}}<Spinner />{{else}}{{balance}}{{/if}}<br />
+    Hi {{#if name === ''}}<Spinner />{{else}}{{name}}. Your balance is:{{/if}}<br />
+    {{#if name === ''}}<Spinner />{{else}}<h2>{{formattedBalance}}</h2>{{/if}}<br />
     Add transaction:
     <AddTransaction
       on:beginTransactionAdd="beginTransactionAdd(event)"
@@ -65,6 +64,9 @@
         transactions.shift();
         this.set({ transactions: transactions, processing: true });
       }
+    },
+    computed: {
+      formattedBalance: balance => `$${balance.toFixed(2)}`
     }
   }
 </script>

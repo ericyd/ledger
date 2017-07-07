@@ -7,6 +7,7 @@
     "start": "node server.js",
     "test": "ava",
     "build": "webpack",
+    "build:prod": "NODE_ENV=production webpack",
     "prettier": "prettier --write --single-quote",
     "prettier:all": "npm run prettier -- \"{,!(node_modules),!(public),!(dist)/**/}*.{js,css,scss}\""
   },

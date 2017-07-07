@@ -5,14 +5,15 @@
   <tr>
     <th><b>Location</b></th>
     <th><b>Amount</b></th>
-    <th><b>Category</b></th>
+    <!--07/06/17: removing category so it will fit better on mobile-->
+    <!--<th><b>Category</b></th>-->
     <th><b>Date</b></th>
   </tr>
   {{#each transactions as transaction}}
     <tr class="{{processing ? 'processing' : ''}}">
       <td>{{transaction.location}}</td>
-      <td>{{transaction.amount}}</td>
-      <td>{{transaction.category}}</td>
+      <td>{{Number(transaction.amount) < 0 ? '-$' + (transaction.amount * -1).toFixed(2) : '$' + transaction.amount.toFixed(2)}}</td>
+      <!--<td>{{transaction.category}}</td>-->
       <td>{{formatDate(transaction.transactionDate)}}</td>
     </tr>
   {{/each}}

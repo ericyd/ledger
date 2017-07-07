@@ -18,13 +18,6 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 
-// if (ENV === 'production') {
-//   plugins = Array.prototype.concat(plugins.slice(0, 1), [new webpack.optimize.UglifyJsPlugin({
-//     sourceMap: false,
-//     comments: false
-//   })], plugins.slice(1))
-// }
-
 module.exports = {
   entry: {
     index: ['babel-polyfill', './src/index.js', './src/main.scss']

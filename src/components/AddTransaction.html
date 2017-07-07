@@ -1,16 +1,24 @@
 <form  on:submit='handleSubmit( event )'>
+
+  <!--Location-->
   <label class="textfield" for="location">
     <input type="text" id="location" name="location"/>
     <span class="textfield__label">Location</span>
   </label>
+
+  <!--Amount field-->
   <label class="textfield" for="amount">
-    <input type="text" id="amount" name="amount"/>
+    <input type="number" id="amount" name="amount" step="0.01"/>
     <span class="textfield__label">Amount</span>
   </label>
+
+  <!--Deposit? (boolean)-->
   <label class="checkbox" for="deposit">
     <input type="checkbox" name="deposit" id="deposit" />
     <span class="checkbox__label">Deposit</span>
   </label>
+
+  <!--Category-->
   <label class="select" for="category">
     <select name="category" id="category">
       <option disabled="disabled" selected="selected" value="Not specified">Category (optional)</option>
@@ -20,6 +28,8 @@
     </select>
     <span class="select__label" for="select">Category (optional)</span>
   </label>
+
+  <!--Date of transaction-->
   <label class="textfield" for="date">
     <input type="text" id="date" name="date"/>
     <span class="textfield__label">Date</span>
@@ -62,13 +72,17 @@
         const location = event.target.elements.location.value;
         const transactionDate = event.target.elements.date.value;
 
-        console.log(amount, deposit, category, transactionDate)
+        // console.log(amount, deposit, category, transactionDate)
         self.fire('beginTransactionAdd', {
           amount,
           location,
           category,
           transactionDate
         })
+        // clear form and set category to default (disabled options will not select with `reset()`)
+        event.target.reset();
+        document.getElementById('category').selected = 0;
+
         axios.post(`/transactions/${localStorage.getItem('auth')}`, {
           amount,
           location,
