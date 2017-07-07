@@ -16,6 +16,14 @@
   import UserSummary from './UserSummary';
   const axios = require('axios');
 
+  const sortByDateDesc = (a, b) => {
+    const aDate = new Date(a.transactionDate);
+    const bDate = new Date(b.transactionDate);
+    if (aDate < bDate) return 1;
+    if (aDate > bDate) return -1;
+    return 0
+  }
+
   export default {
     data() {
       return {
@@ -58,8 +66,9 @@
           return axios.get(`/transactions/${this.get('auth')}`);
         })
         .then(transactionRes => {
+          const sortedTransactions = transactionRes.data.transactions.sort(sortByDateDesc)
           this.set({
-            transactions: transactionRes.data.transactions
+            transactions: sortedTransactions
           })
         })
         .catch(err => {
