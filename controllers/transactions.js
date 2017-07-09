@@ -61,21 +61,6 @@ exports.addTransaction = function(req, res) {
             errormsgs: ['Database error updating user balance']
           });
         return res.json({ error: false, message: 'Data added successfully' });
-
-        //// 7/8/17: moving balance data to transactions model
-        // add record to balances
-        // const balance = new Balance({
-        //   userId: transactionData.userId,
-        //   amount: transactionData.amount,
-        //   date: transactionData.transactionDate
-        // });
-        // balance.save(function(err) {
-        //   if (err)
-        //     return res.status(500).json({
-        //       error: true,
-        //       errormsgs: ['Database error adding record to balances document']
-        //     });
-        // });
       });
     });
   });

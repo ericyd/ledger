@@ -46,6 +46,9 @@ router
 //
 app.use('/', router);
 
+if (process.env.NODE_ENV === 'production')
+  console.log('Running with production database')
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
