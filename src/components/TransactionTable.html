@@ -13,21 +13,17 @@
   <!--Overview grid row-->
   <section class='grid grid--transaction' tabindex="100">
       <div>{{transaction.location}}</div>
-      <div>{{Number(transaction.amount) < 0
-        ? '-$' + (transaction.amount * -1).toFixed(2)
-        : '$' + transaction.amount.toFixed(2)}}</div>
+      <div>{{formatAsCurrency(transaction.amount)}}</div>
       <div>{{formatDate(transaction.transactionDate)}}</div>
   </section>
   <!--Detail grid row-->
   <section class='grid grid--transaction transaction-details'>
       <div>
         <b>Location</b>: {{transaction.location}}<br />
-        <b>Amount</b>: {{Number(transaction.amount) < 0
-        ? '-$' + (transaction.amount * -1).toFixed(2)
-        : '$' + transaction.amount.toFixed(2)}} <br />
+        <b>Amount</b>: {{formatAsCurrency(transaction.amount)}} <br />
         <b>Date</b>: {{formatDate(transaction.transactionDate)}}<br />
         <b>Balance*</b>: {{transaction.currentBalance
-          ? '$' + transaction.currentBalance.toFixed(2)
+          ? formatAsCurrency(transaction.currentBalance)
           : 'unknown (was not saved properly)'}}<br />
         <b>Notes</b>: {{transaction.notes}}<br />
 
@@ -42,6 +38,7 @@
 <script>
   import Spinner from './Spinner';
   const formatDate = require('../formatDate');
+  const formatAsCurrency = require('../formatAsCurrency');
 
   export default {
     data() {
@@ -51,7 +48,8 @@
       Spinner
     },
     helpers: {
-      formatDate
+      formatDate,
+      formatAsCurrency
     }
   }
 </script>

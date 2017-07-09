@@ -1,7 +1,12 @@
 <section class='grid grid--medium'>
   <div>
-    Hi {{#if name === ''}}<Spinner />{{else}}{{name}}. Your balance is:{{/if}}<br />
-    {{#if name === ''}}<Spinner />{{else}}<h2>{{formattedBalance}}</h2>{{/if}}<br />
+    Hi {{#if name === ''}}
+      <Spinner />
+    {{else}}
+      {{name}}. Your balance is:
+      <h2>{{formatAsCurrency(balance)}}</h2>
+    {{/if}}
+
     Add transaction:
     <AddTransaction
       on:beginTransactionAdd="beginTransactionAdd(event)"
@@ -18,7 +23,7 @@
   import TransactionTable from './TransactionTable';
   import AddTransaction from './AddTransaction';
   import Spinner from './Spinner';
-  const formatDate = require('../formatDate');
+  const formatAsCurrency = require('../formatAsCurrency');
 
   export default {
     data() {
@@ -65,8 +70,8 @@
         this.set({ transactions: transactions, processing: true });
       }
     },
-    computed: {
-      formattedBalance: balance => `$${balance.toFixed(2)}`
+    helpers: {
+      formatAsCurrency
     }
   }
 </script>
