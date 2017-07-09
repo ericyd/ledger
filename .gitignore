@@ -57,4 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
-dist
+# probably could find a better way to host the dist files for heroku...
+# dist
