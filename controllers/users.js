@@ -101,8 +101,8 @@ exports.getNameAndBalance = function(req, res) {
       res.json({
         error: false,
         message: 'got user details',
-        name: user.name,
-        balance: user.balance
+        name: user ? user.name : '',
+        balance: user ? user.balance : 0
       });
     }
   });

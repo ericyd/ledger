@@ -84,7 +84,8 @@
           amount,
           location,
           category,
-          transactionDate
+          transactionDate,
+          notes
         })
         // clear form and set category to default (disabled options will not select with `reset()`)
         event.target.reset();
@@ -100,7 +101,8 @@
             amount,
             location,
             category,
-            transactionDate
+            transactionDate,
+            notes
           })
         }).catch(err => {
           self.fire('errorTransactionAdd', {

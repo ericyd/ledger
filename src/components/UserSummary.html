@@ -42,13 +42,16 @@
       beginTransactionAdd(event) {
         let transactions = this.get('transactions');
         const balance = this.get('balance');
+        const currentBalance = Number(balance) + Number(event.amount);
         const newTransaction = {
           amount: event.amount,
           category: event.category,
           location: event.location,
-          transactionDate: event.transactionDate
+          transactionDate: event.transactionDate,
+          notes: event.notes,
+          currentBalance: currentBalance
         };
-        console.log(newTransaction)
+        // console.log(newTransaction)
         if (transactions) {
           transactions.unshift(newTransaction);
         } else {
@@ -57,7 +60,7 @@
         this.set({
           transactions: transactions,
           processing: true,
-          balance: Number(balance) + Number(event.amount)
+          balance: currentBalance
         });
       },
       successTransactionAdd(event) {

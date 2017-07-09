@@ -20,6 +20,7 @@ exports.getTransactionsByUserId = function(req, res) {
 
 exports.addTransaction = function(req, res) {
   // get user for balance
+  // console.log('adding transaction')
   User.findById(req.params.userId, function(err, user) {
     if (err)
       return res
