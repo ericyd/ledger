@@ -25,6 +25,7 @@ A simple ledger to keep track of moneys
 3. Set up your `.env` file with the info for your database.  Follow the details in the `.sample.env` included in this repository
 4. `npm run build:prod`
 5. Push it up to heroku
+6. In Heroku, set up your config vars to be the same as your `.env` vars
 
 ## Security
 
