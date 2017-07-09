@@ -45,14 +45,14 @@ test('formatAsCurrency will format negative values correctly', t => {
 
 test('formatAsCurrency can use custom currencySymbols', t => {
   const value = -45.45;
-  const currencySymbol = 'L'
+  const currencySymbol = 'L';
   const result = formatAsCurrency(value, currencySymbol);
   t.is(result, '-L45.45', 'did not format number 45.45 correctly');
 });
 
 test('formatAsCurrency will return value if custom symbol is passed', t => {
   const value = 'L45';
-  const currencySymbol = 'L'
+  const currencySymbol = 'L';
   const result = formatAsCurrency(value, currencySymbol);
   t.is(result, 'L45', 'did not format "L45" correctly');
 });

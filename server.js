@@ -21,7 +21,6 @@ app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use('/dist', express.static('dist'));
 
-
 // Heroku really doesn't like it if you don't include this
 app.get('/', function(request, response) {
   response.render('index.html');
