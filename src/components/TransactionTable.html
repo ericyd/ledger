@@ -1,23 +1,42 @@
 {{#if transactions.length === 0}}
 <Spinner />
 {{else}}
-<table>
-  <tr>
-    <th><b>Location</b></th>
-    <th><b>Amount</b></th>
-    <!--07/06/17: removing category so it will fit better on mobile-->
-    <!--<th><b>Category</b></th>-->
-    <th><b>Date</b></th>
-  </tr>
+
+<section id='transaction-table'>
+  <!--Header row-->
+  <section class='grid table-header' tabindex="100">
+      <div>Location</div>
+      <div>Amount</div>
+      <div>Date</div>
+  </section>
   {{#each transactions as transaction}}
-    <tr class="{{processing ? 'processing' : ''}}">
-      <td>{{transaction.location}}</td>
-      <td>{{Number(transaction.amount) < 0 ? '-$' + (transaction.amount * -1).toFixed(2) : '$' + transaction.amount.toFixed(2)}}</td>
-      <!--<td>{{transaction.category}}</td>-->
-      <td>{{formatDate(transaction.transactionDate)}}</td>
-    </tr>
+  <!--Overview grid row-->
+  <section class='grid grid--transaction' tabindex="100">
+      <div>{{transaction.location}}</div>
+      <div>{{Number(transaction.amount) < 0
+        ? '-$' + (transaction.amount * -1).toFixed(2)
+        : '$' + transaction.amount.toFixed(2)}}</div>
+      <div>{{formatDate(transaction.transactionDate)}}</div>
+  </section>
+  <!--Detail grid row-->
+  <section class='grid grid--transaction transaction-details'>
+      <div>
+        <b>Location</b>: {{transaction.location}}<br />
+        <b>Amount</b>: {{Number(transaction.amount) < 0
+        ? '-$' + (transaction.amount * -1).toFixed(2)
+        : '$' + transaction.amount.toFixed(2)}} <br />
+        <b>Date</b>: {{formatDate(transaction.transactionDate)}}<br />
+        <b>Balance*</b>: {{transaction.currentBalance
+          ? '$' + transaction.currentBalance.toFixed(2)
+          : 'unknown (was not saved properly)'}}<br />
+        <b>Notes</b>: {{transaction.notes}}<br />
+
+        <br />
+        *Balance indicates account balance after transaction is applied
+      </div>
+  </section>
   {{/each}}
-</table>
+</section>
 {{/if}}
 
 <script>

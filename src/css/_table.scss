@@ -1,13 +1,37 @@
-table {
-  border: 1px solid $gray5;
+.grid--transaction {
+  div {
+    border: 1px solid $gray5;
+  }
+
+  // Hide the "detail" rows by default
+  &:nth-child(odd) {
+    display: none;
+  }
+
+  &:nth-child(even) {
+    // "Overview" rows should have styling to indicate interactivity
+    &:hover div {
+      background-color: $gray5;
+      border-color: $gray2;
+      cursor: pointer;
+    }
+
+    // Show the "detail" rows when previous sibling ("overview") is clicked
+    &:focus {
+      div {
+        background-color: $gray5;
+      }
+      & + .grid--transaction {
+        display: block;
+      }
+    }
+  }
 }
 
-td {
-  border-right: 1px solid $gray5;
-  border-bottom: 1px solid $gray5;
+.table-header {
+  font-weight: bold;
+}
 
-  // remove right border from last td (there are 4 td children for each tr)
-  &:nth-child(n + 4) {
-    border-right: 0;
-  }
+.transaction-details div {
+  background-color: $gray6;
 }
