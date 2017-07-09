@@ -24,6 +24,8 @@ const transactionSchema = new Schema({
   archived: Boolean,
   category: String,
   transactionDate: Date,
+  notes: String,
+  currentBalance: Number,
   dateModified: Date,
   dateCreated: Date
 });

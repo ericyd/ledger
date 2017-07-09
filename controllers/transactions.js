@@ -1,6 +1,5 @@
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
-const Balance = require('../models/balance');
 
 exports.getTransactionsByUserId = function(req, res) {
   Transaction.getTransactionsByUserId(
@@ -20,56 +19,63 @@ exports.getTransactionsByUserId = function(req, res) {
 };
 
 exports.addTransaction = function(req, res) {
-  // TODO: add validation
-  const now = new Date();
-
-  const transactionData = {
-    location: req.body.location,
-    amount: Number(req.body.amount),
-    userId: req.params.userId,
-    transactionDate: new Date(req.body.transactionDate),
-    category: req.body.category,
-    dateCreated: now,
-    dateModified: now,
-    archived: req.body.archived ? req.body.archived : false
-  };
-  const transaction = new Transaction(transactionData);
-
-  transaction.save(function(err, data) {
+  // get user for balance
+  User.findById(req.params.userId, function(err, user) {
     if (err)
-      return res.status(500).json({
-        error: true,
-        errormsgs: ['Database error saving the transaction', err]
-      });
+      return res
+        .status(500)
+        .json({ error: true, errormsgs: ['Database error finding user'] });
 
-    // update user balance
-    User.findById(req.params.userId, function(err, user) {
+    // compute data for transaction and user updates
+    const currentBalance = Number(user.balance) + Number(req.body.amount);
+    const now = new Date();
+
+    // TODO: add validation
+    const transactionData = {
+      location: req.body.location,
+      amount: Number(req.body.amount),
+      userId: req.params.userId,
+      transactionDate: new Date(req.body.transactionDate),
+      category: req.body.category,
+      notes: req.body.notes,
+      currentBalance: currentBalance,
+      dateCreated: now,
+      dateModified: now,
+      archived: req.body.archived ? req.body.archived : false
+    };
+    const transaction = new Transaction(transactionData);
+
+    transaction.save(function(err, data) {
       if (err)
-        return res
-          .status(500)
-          .json({ error: true, errormsgs: ['Database error finding user'] });
-      user.balance = Number(user.balance) + transactionData.amount;
+        return res.status(500).json({
+          error: true,
+          errormsgs: ['Database error saving the transaction', err]
+        });
+
+      // update user balance
+      user.balance = currentBalance;
       user.save(function(err) {
         if (err)
           return res.status(500).json({
             error: true,
             errormsgs: ['Database error updating user balance']
           });
+        return res.json({ error: false, message: 'Data added successfully' });
 
+        //// 7/8/17: moving balance data to transactions model
         // add record to balances
-        const balance = new Balance({
-          userId: transactionData.userId,
-          amount: transactionData.amount,
-          date: transactionData.transactionDate
-        });
-        balance.save(function(err) {
-          if (err)
-            return res.status(500).json({
-              error: true,
-              errormsgs: ['Database error adding record to balances document']
-            });
-          return res.json({ error: false, message: 'Data added successfully' });
-        });
+        // const balance = new Balance({
+        //   userId: transactionData.userId,
+        //   amount: transactionData.amount,
+        //   date: transactionData.transactionDate
+        // });
+        // balance.save(function(err) {
+        //   if (err)
+        //     return res.status(500).json({
+        //       error: true,
+        //       errormsgs: ['Database error adding record to balances document']
+        //     });
+        // });
       });
     });
   });

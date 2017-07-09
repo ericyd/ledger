@@ -2,13 +2,13 @@
 
   <!--Location-->
   <label class="textfield" for="location">
-    <input type="text" id="location" name="location"/>
+    <input type="text" id="location" name="location" required/>
     <span class="textfield__label">Location</span>
   </label>
 
   <!--Amount field-->
   <label class="textfield" for="amount">
-    <input type="number" id="amount" name="amount" step="0.01"/>
+    <input type="number" id="amount" name="amount" step="0.01" required/>
     <span class="textfield__label">Amount</span>
   </label>
 
@@ -21,7 +21,7 @@
   <!--Category-->
   <label class="select" for="category">
     <select name="category" id="category">
-      <option disabled="disabled" selected="selected" value="Not specified">Category (optional)</option>
+      <option selected="selected" value="Not specified">Category (optional)</option>
       {{#each categories as category}}
       <option value="{{category}}">{{category}}</option>
       {{/each}}
@@ -31,8 +31,14 @@
 
   <!--Date of transaction-->
   <label class="textfield" for="date">
-    <input type="text" id="date" name="date"/>
+    <input type="text" id="date" name="date" required/>
     <span class="textfield__label">Date</span>
+  </label>
+
+  <!--Notes-->
+  <label class="textfield" for="notes">
+    <input type="text" id="notes" name="notes"/>
+    <span class="textfield__label">Notes (optional)</span>
   </label>
 
   <button type="submit">Add transaction</button>
@@ -71,6 +77,7 @@
         const category = event.target.elements.category.value ? event.target.elements.category.value : '';
         const location = event.target.elements.location.value;
         const transactionDate = event.target.elements.date.value;
+        const notes = event.target.elements.notes.value;
 
         // console.log(amount, deposit, category, transactionDate)
         self.fire('beginTransactionAdd', {
@@ -81,13 +88,13 @@
         })
         // clear form and set category to default (disabled options will not select with `reset()`)
         event.target.reset();
-        document.getElementById('category').selected = 0;
 
         axios.post(`/transactions/${localStorage.getItem('auth')}`, {
           amount,
           location,
           category,
-          transactionDate
+          transactionDate,
+          notes
         }).then(response => {
           self.fire('successTransactionAdd', {
             amount,
