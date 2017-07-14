@@ -43,8 +43,26 @@ $font-size--large: 2rem !default;
 $font-family-base: sans-serif;
 $font-weight-base: normal;
 
+//
+// Sidebar styles
+//
+$sidebar-width: 320px;
+$body-height: 100vh;
+
+
+//
+// Global mixins
+//
+@mixin default-transition {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
 @import '../node_modules/cutestrap/dist/scss/cutestrap';
 @import '../node_modules/flatpickr/dist/flatpickr.css';
 @import './css/body';
 @import './css/buttons';
 @import './css/table';
+@import './css/spinner';
+@import './css/sidebar';

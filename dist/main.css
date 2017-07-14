@@ -1634,4 +1634,63 @@ body {
 .transaction-details div {
   background-color: #efeff0; }
 
+.spinner {
+  -webkit-animation: icon-spin 0.75s infinite linear;
+  animation: icon-spin 0.75s infinite linear;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0.25rem solid #3c3c3d;
+  border-right-color: #7CB7DE;
+  border-radius: 50%;
+  display: inline-block; }
+
+/* 
+Pulled directly from 
+https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398bbc33ad59/scss/_animated.scss 
+*/
+@-webkit-keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+.sidebar {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border: 0;
+  background-color: #fdfdfd;
+  padding: 1em 0 0 1em;
+  position: absolute;
+  top: 0;
+  width: 320px;
+  height: 100vh;
+  z-index: 1000;
+  overflow-y: auto; }
+  .sidebar.collapsed {
+    left: -320px; }
+  .sidebar.expanded {
+    left: 0; }
+
+.push-body {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  overflow-x: hidden;
+  position: relative; }
+  .push-body.collapsed {
+    left: 0; }
+  .push-body.expanded {
+    left: 320px; }
+
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

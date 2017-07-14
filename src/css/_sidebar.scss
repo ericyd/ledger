@@ -1,0 +1,46 @@
+.container {
+
+}
+
+.sidebar {
+  // thanks to jPushMenu for this inspiration
+  // https://github.com/takien/jPushMenu/blob/1e960b77fb3666434a580eb6980403b049f79355/css/jPushMenu.css
+  @include default-transition();
+  border: 0;
+  background-color: $body-bg;
+  padding: 1em 0 0 1em;
+  position: absolute;
+  top: 0;
+  width: $sidebar-width;
+  height: $body-height;
+  z-index: 1000;
+  overflow-y: auto;
+
+  // toggling class is handled Nav component
+  &.collapsed {
+    left: -$sidebar-width;
+  }
+
+  &.expanded {
+    left: 0;
+  }
+}
+
+.push-body {
+  @include default-transition();
+  overflow-x: hidden;
+  position: relative;
+
+  // toggling class is handled Nav component
+  &.collapsed {
+    left: 0;
+  }
+
+  &.expanded {
+    left: $sidebar-width;
+  }
+}
+
+.sidebar__link {
+  
+}

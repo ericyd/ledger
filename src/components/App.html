@@ -1,20 +1,38 @@
-<div id='main' class='wrapper'>
-  {{#if auth}}
-    <button on:click="handleLogOut()" class="btn--secondary">Log out</button>
+<!--.container is required for push menu styling-->
+<div id='main' class='wrapper container'>
+  <Sidebar
+    auth={{auth}}
+    links={{links}}
+    isExpanded={{isExpanded}}
+    on:navigate="handleNavigate(event)"
+    on:toggleSidebar="toggleSidebar()"
+    on:logout="handleLogOut()">
+  <div class="push-body {{isExpanded ? 'expanded' : 'collapsed'}}">
+  {{#if !auth}}
+    <!--note: svelte requires this parameter to be consistently named 'event'-->
+    <LoginSignup on:submit="handleAuth(event)"/>
+  {{else}}
+    
     <UserSummary balance={{balance}}
       transactions={{transactions}}
       name={{name}}/>
-  {{else}}
-    <!--note: svelte requires this parameter to be consistently named 'event'-->
-    <LoginSignup on:submit="handleAuth(event)"/>
+
+    <div id='views'>
+      hi!
+    </div>
   {{/if}}
+  </div>
 </div>
 
 
 <script>
   import LoginSignup from './LoginSignup';
   import UserSummary from './UserSummary';
+  import Sidebar from './Sidebar';
+  import Charts from './Charts';
+  import notfound from './notfound';
   const axios = require('axios');
+  const page = require('page');
 
   const sortByDateDesc = (a, b) => {
     const aDate = new Date(a.transactionDate);
@@ -25,34 +43,6 @@
   }
 
   export default {
-    data() {
-      return {
-        auth: localStorage.getItem('auth'),
-        balance: 0,
-        transactions: [],
-        name: '',
-        err: null
-      }
-    },
-    components: {
-      UserSummary,
-      LoginSignup
-    },
-    methods: {
-      handleLogOut() {
-        this.set({auth: false});
-        localStorage.removeItem('auth');
-      },
-      handleAuth(event) {
-        this.set({
-          balance: event.balance,
-          transactions: event.transactions,
-          name: event.name,
-          auth: event.id
-        });
-        localStorage.setItem('auth', event.id);
-      }
-    },
     oncreate() {
       // if authenticated, populate user data
       if (this.get('auth')) {
@@ -63,7 +53,7 @@
             balance: userRes.data.balance
           })
           // once received user data, get transactions
-          return axios.get(`/transactions/${this.get('auth')}`);
+          return axios.get(`/transactions/${this.get('auth')}`)
         })
         .then(transactionRes => {
           const sortedTransactions = transactionRes.data.transactions.sort(sortByDateDesc)
@@ -74,6 +64,89 @@
         .catch(err => {
           this.set({err: err})
         })
+      }
+
+      page('/')
+      page('/my-summary', function() {
+        console.log('going to summary')
+      })
+      page('/my-charts', function () {
+        console.log('going to charts')
+      })
+      page('*', function () {
+        console.log('not found')
+      })
+    },
+    data() {
+      return {
+        auth: localStorage.getItem('auth'),
+        balance: 0,
+        transactions: [],
+        name: '',
+        err: null,
+        links: [
+          {
+            text: 'Summary',
+            href: '/my-summary'
+          },
+          {
+            text: 'Charts',
+            href: '/my-charts'
+          }
+        ],
+        isExpanded: true
+      }
+    },
+    components: {
+      UserSummary,
+      LoginSignup,
+      Sidebar
+    },
+    methods: {
+      handleLogOut() {
+        this.set({auth: false});
+        localStorage.removeItem('auth');
+      },
+      toggleSidebar() {
+        this.set({isExpanded: !this.get('isExpanded')})
+      },
+      handleNavigate(event) {
+        // console.log(`got ${event.href}`)
+        // switch url
+        // Must set up routes first! see oncreate()
+        page(event.href)
+          // TODO: think of a more scalable way to handle these routes
+          if (event.href === '/my-summary') {
+            const userSummary = new UserSummary({
+              target: document.getElementById('views'),
+              data: {
+                balance: this.get('balance'),
+                transactions: this.get('transactions'),
+                name: this.get('name')
+              }
+            })
+          } else if (event.href === '/my-charts') {
+            const charts = new Charts({
+              target: document.getElementById('views'),
+              data: {
+                balance: this.get('balance'),
+                transactions: this.get('transactions'),
+                name: this.get('name')
+              }
+            })
+          } else {
+            // TODO: show a 404 page
+            console.log('page not found');
+          }
+      },
+      handleAuth(event) {
+        this.set({
+          balance: event.balance,
+          transactions: event.transactions,
+          name: event.name,
+          auth: event.id
+        });
+        localStorage.setItem('auth', event.id);
       }
     }
   }

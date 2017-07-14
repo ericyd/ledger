@@ -22,17 +22,9 @@ app.use(express.static(__dirname + '/public'));
 app.use('/dist', express.static('dist'));
 
 // Heroku really doesn't like it if you don't include this
-app.get('/', function(request, response) {
-  response.render('index.html');
-});
-
-//
-// Assume client side routing.
-// unless route is defined below, serve this default
-//
-router.route('*', function(request, response) {
-  response.render('index.html');
-});
+// app.get('/', function(request, response) {
+//   response.render('index.html');
+// });
 
 //
 // Define JSON routes
@@ -45,6 +37,21 @@ router
   .get(transactions.getTransactionsByUserId)
   .post(transactions.addTransaction)
   .put(transactions.updateTransaction);
+
+
+app.get('*', function(request, response) {
+  response.sendFile('index.html', {root : __dirname + '/public'});
+});
+//
+// Assume client side routing.
+// unless route is defined below, serve this default
+//
+// router.route('*').get(function(req, res) {
+//   // this forces page reload...
+//   res.sendFile('index.html', {root : __dirname + '/public'});
+//   // res.end()
+// });
+
 
 //
 // Use the router as the default

@@ -1,0 +1,39 @@
+<div class="sidebar {{isExpanded ? 'expanded' : 'collapsed'}}">
+  <!--Close button-->
+  <button class="btn--secondary" on:click="toggleSidebar()">X</button>
+
+  <!--Display each link-->
+  {{#each links as link}}
+  <div class="sidebar__link">
+    <a href="{{link.href}}" on:click="navigate(event)">{{link.text}}</a>
+  </div>
+  {{/each}}
+
+  <!--Include a log out button if authenticated-->
+  {{#if auth}}
+  <button on:click="handleLogOut()" class="btn--secondary">
+    Log out
+  </button>
+  {{/if}}
+</div>
+
+<script>
+  export default {
+    data() {
+      return {}
+    },
+    methods: {
+      handleLogOut() {
+        this.fire('logout');
+        this.fire('toggleSidebar');
+      },
+      toggleSidebar() {
+        this.fire('toggleSidebar');
+      },
+      navigate(event) {
+        this.fire('navigate', {href: event.target.pathname});
+        event.preventDefault();
+      }
+    }
+  }
+</script>
