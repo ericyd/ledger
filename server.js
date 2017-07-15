@@ -2,6 +2,7 @@
 // Dependencies
 //
 require('dotenv').config();
+require('./models/initDb')();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -38,7 +39,6 @@ router
   .post(transactions.addTransaction)
   .put(transactions.updateTransaction);
 
-
 // app.get('*', function(request, response) {
 //   response.sendFile('index.html', {root : __dirname + '/public'});
 // });
@@ -48,10 +48,9 @@ router
 //
 router.route('*').get(function(req, res) {
   // this forces page reload...
-  res.sendFile('index.html', {root : __dirname + '/public'});
+  res.sendFile('index.html', { root: __dirname + '/public' });
   // res.end()
 });
-
 
 //
 // Use the router as the default
