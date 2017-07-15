@@ -1,13 +1,13 @@
 <!--.container is required for push menu styling-->
-<div id='main' class='wrapper container'>
+<div id='main' class='container'>
   <Sidebar
     auth={{auth}}
     links={{links}}
     isExpanded={{isExpanded}}
-    on:navigate="handleNavigate(event)"
     on:toggleSidebar="toggleSidebar()"
-    on:logout="handleLogOut()">
-  <div class="push-body {{isExpanded ? 'expanded' : 'collapsed'}}">
+    on:logout="handleLogOut()" />
+  <div class="wrapper push-body {{isExpanded ? 'expanded' : 'collapsed'}}">
+    <button class="btn--secondary" on:click="toggleSidebar()">Menu</button>
   {{#if !auth}}
     <!--note: svelte requires this parameter to be consistently named 'event'-->
     <LoginSignup on:submit="handleAuth(event)"/>
@@ -69,9 +69,25 @@
       page('/')
       page('/my-summary', function() {
         console.log('going to summary')
+        const userSummary = new UserSummary({
+          target: document.getElementById('views'),
+          data: {
+            balance: this.get('balance'),
+            transactions: this.get('transactions'),
+            name: this.get('name')
+          }
+        })
       })
       page('/my-charts', function () {
         console.log('going to charts')
+        const charts = new Charts({
+          target: document.getElementById('views'),
+          data: {
+            balance: this.get('balance'),
+            transactions: this.get('transactions'),
+            name: this.get('name')
+          }
+        })
       })
       page('*', function () {
         console.log('not found')
@@ -109,35 +125,6 @@
       },
       toggleSidebar() {
         this.set({isExpanded: !this.get('isExpanded')})
-      },
-      handleNavigate(event) {
-        // console.log(`got ${event.href}`)
-        // switch url
-        // Must set up routes first! see oncreate()
-        page(event.href)
-          // TODO: think of a more scalable way to handle these routes
-          if (event.href === '/my-summary') {
-            const userSummary = new UserSummary({
-              target: document.getElementById('views'),
-              data: {
-                balance: this.get('balance'),
-                transactions: this.get('transactions'),
-                name: this.get('name')
-              }
-            })
-          } else if (event.href === '/my-charts') {
-            const charts = new Charts({
-              target: document.getElementById('views'),
-              data: {
-                balance: this.get('balance'),
-                transactions: this.get('transactions'),
-                name: this.get('name')
-              }
-            })
-          } else {
-            // TODO: show a 404 page
-            console.log('page not found');
-          }
       },
       handleAuth(event) {
         this.set({

@@ -9,13 +9,15 @@
     </h2>
   </div>
   <div>
+    {{#if signingUp}}
+    Need to log in?
+    {{else}}
+    Need to sign up?
+    {{/if}}
+    <br />
     <button on:click="toggleSigningUp()"
       class='btn--secondary'>
-      {{#if signingUp}}
-      Click here to log in
-      {{else}}
-      Click here to sign up
-      {{/if}}
+      Click here
     </button>
   </div>
 </section>

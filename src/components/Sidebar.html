@@ -15,9 +15,12 @@
     Log out
   </button>
   {{/if}}
+
 </div>
 
 <script>
+  const page = require('page');
+
   export default {
     data() {
       return {}
@@ -31,7 +34,8 @@
         this.fire('toggleSidebar');
       },
       navigate(event) {
-        this.fire('navigate', {href: event.target.pathname});
+        page(event.target.pathname);
+        this.fire('toggleSidebar');
         event.preventDefault();
       }
     }

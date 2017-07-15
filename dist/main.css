@@ -1664,6 +1664,10 @@ https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg); } }
 
+.container {
+  overflow-x: hidden;
+  position: relative; }
+
 .sidebar {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
