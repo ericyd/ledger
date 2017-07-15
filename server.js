@@ -39,18 +39,18 @@ router
   .put(transactions.updateTransaction);
 
 
-app.get('*', function(request, response) {
-  response.sendFile('index.html', {root : __dirname + '/public'});
-});
+// app.get('*', function(request, response) {
+//   response.sendFile('index.html', {root : __dirname + '/public'});
+// });
 //
 // Assume client side routing.
 // unless route is defined below, serve this default
 //
-// router.route('*').get(function(req, res) {
-//   // this forces page reload...
-//   res.sendFile('index.html', {root : __dirname + '/public'});
-//   // res.end()
-// });
+router.route('*').get(function(req, res) {
+  // this forces page reload...
+  res.sendFile('index.html', {root : __dirname + '/public'});
+  // res.end()
+});
 
 
 //

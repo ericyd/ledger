@@ -19,8 +19,6 @@
 </div>
 
 <script>
-  const page = require('page');
-
   export default {
     data() {
       return {}
@@ -34,8 +32,8 @@
         this.fire('toggleSidebar');
       },
       navigate(event) {
-        page(event.target.pathname);
         this.fire('toggleSidebar');
+        this.fire('navigate', {href: event.target.pathname})
         event.preventDefault();
       }
     }

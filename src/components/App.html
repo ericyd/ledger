@@ -4,6 +4,7 @@
     auth={{auth}}
     links={{links}}
     isExpanded={{isExpanded}}
+    on:navigate="handleNavigate(event)"
     on:toggleSidebar="toggleSidebar()"
     on:logout="handleLogOut()" />
   <div class="wrapper push-body {{isExpanded ? 'expanded' : 'collapsed'}}">
@@ -12,14 +13,8 @@
     <!--note: svelte requires this parameter to be consistently named 'event'-->
     <LoginSignup on:submit="handleAuth(event)"/>
   {{else}}
-    
-    <UserSummary balance={{balance}}
-      transactions={{transactions}}
-      name={{name}}/>
-
-    <div id='views'>
-      hi!
-    </div>
+    <!--Components will be mounted here when the page navigates-->
+    <div id='views'></div>
   {{/if}}
   </div>
 </div>
@@ -44,8 +39,10 @@
 
   export default {
     oncreate() {
-      // if authenticated, populate user data
+      const self = this;
+      // if authenticated, populate user data and navigate to userSummary
       if (this.get('auth')) {
+        page('/my-summary')
         axios.get(`/users/${this.get('auth')}`)
         .then(userRes => {
           this.set({
@@ -66,31 +63,48 @@
         })
       }
 
-      page('/')
+      page('/', '/my-summary')
       page('/my-summary', function() {
-        console.log('going to summary')
+        // destroy any existing components
+        const view = self.get('view');
+        if (view) view.destroy();
+
+        // generate new component and set it as the current view
         const userSummary = new UserSummary({
           target: document.getElementById('views'),
           data: {
-            balance: this.get('balance'),
-            transactions: this.get('transactions'),
-            name: this.get('name')
+            balance: self.get('balance'),
+            transactions: self.get('transactions'),
+            name: self.get('name')
           }
-        })
+        });
+        self.set({ view: userSummary });
       })
       page('/my-charts', function () {
-        console.log('going to charts')
+        // destroy any existing components
+        const view = self.get('view');
+        if (view) view.destroy();
+
+        // generate new component and set it as the current view
         const charts = new Charts({
           target: document.getElementById('views'),
           data: {
-            balance: this.get('balance'),
-            transactions: this.get('transactions'),
-            name: this.get('name')
+            balance: self.get('balance'),
+            transactions: self.get('transactions'),
+            name: self.get('name')
           }
         })
+        self.set({ view: charts });
       })
       page('*', function () {
-        console.log('not found')
+        const view = self.get('view');
+        if (view) view.destroy();
+
+        // generate new component and set it as the current view
+        const notfound = new notfound({
+          target: document.getElementById('views')
+        })
+        self.set({ view: notfound });
       })
     },
     data() {
@@ -110,7 +124,8 @@
             href: '/my-charts'
           }
         ],
-        isExpanded: true
+        isExpanded: true,
+        view: null
       }
     },
     components: {
@@ -125,6 +140,9 @@
       },
       toggleSidebar() {
         this.set({isExpanded: !this.get('isExpanded')})
+      },
+      handleNavigate(event) {
+        page(event.href);
       },
       handleAuth(event) {
         this.set({
