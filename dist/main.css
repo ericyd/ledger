@@ -1604,6 +1604,9 @@ Styleguide 1.2
   max-width: 640px;
   padding: 2.4rem 2rem; }
 
+* {
+  box-sizing: border-box; }
+
 body {
   background-color: #fdfdfd;
   color: #222; }
@@ -1673,6 +1676,7 @@ https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
   border: 0;
+  border-right: 1px solid #dededf;
   background-color: #fdfdfd;
   padding: 1em 0 0 1em;
   position: absolute;
@@ -1696,5 +1700,12 @@ https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398
     left: 0; }
   .push-body.expanded {
     left: 320px; }
+
+.sidebar__link {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #dededf; }
+  .sidebar__link:last-of-type {
+    margin-bottom: 1em; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

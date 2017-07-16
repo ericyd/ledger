@@ -8,6 +8,7 @@
   // https://github.com/takien/jPushMenu/blob/1e960b77fb3666434a580eb6980403b049f79355/css/jPushMenu.css
   @include default-transition();
   border: 0;
+  border-right: 1px solid $gray5;
   background-color: $body-bg;
   padding: 1em 0 0 1em;
   position: absolute;
@@ -43,4 +44,11 @@
 }
 
 .sidebar__link {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid $gray5;
+
+  &:last-of-type() {
+    margin-bottom: 1em;
+  }
 }
