@@ -1611,6 +1611,9 @@ body {
   background-color: #fdfdfd;
   color: #222; }
 
+#app, #main, #views {
+  min-height: 100vh; }
+
 .btn--secondary {
   border: 1px solid #222; }
 
@@ -1696,10 +1699,6 @@ https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398
   transition: all 0.3s ease;
   overflow-x: hidden;
   position: relative; }
-  .push-body.collapsed {
-    left: 0; }
-  .push-body.expanded {
-    left: 320px; }
 
 .sidebar__link {
   padding-top: 0.5em;

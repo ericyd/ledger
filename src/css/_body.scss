@@ -6,3 +6,7 @@ body {
   background-color: $body-bg;
   color: $body-color;
 }
+
+#app, #main, #views {
+  min-height: $body-height;
+}

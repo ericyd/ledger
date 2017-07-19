@@ -19,8 +19,13 @@ function initDb() {
     db = mongoose.connect(dbUrl);
   } catch (err) {
     console.log(err);
-    mongoose.disconnect();
-    db = mongoose.connect(dbUrl);
+    try {
+      mongoose.disconnect(() => {
+        db = mongoose.connect(dbUrl);
+      });
+    } catch (err2) {
+      console.log(err2);
+    }
   }
 }
 

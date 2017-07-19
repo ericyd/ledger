@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "start:prod": "NODE_ENV=production node server.js",
     "test": "ava",
     "build": "webpack",
     "build:prod": "NODE_ENV=production webpack",

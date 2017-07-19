@@ -33,14 +33,14 @@
   overflow-x: hidden;
   position: relative;
 
-  // toggling class is handled Nav component
-  &.collapsed {
-    left: 0;
-  }
+  //// removed - better to have sidebar slide over top
+  // &.collapsed {
+  //   left: 0;
+  // }
 
-  &.expanded {
-    left: $sidebar-width;
-  }
+  // &.expanded {
+  //   left: $sidebar-width;
+  // }
 }
 
 .sidebar__link {
