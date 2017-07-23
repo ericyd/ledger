@@ -14,7 +14,8 @@
       on:errorTransactionAdd="errorTransactionAdd(event)" />
   </div>
   <div>
-    Transactions: <br />
+    Transactions <br />
+    Tap to view transactions with each category<br />
     {{#if transactions.length === 0}}
     <Spinner />
     {{else}}
@@ -79,9 +80,6 @@
     },
     helpers: {
       formatAsCurrency
-    },
-    ondestroy() {
-      console.log('destroying ')
     }
   }
 </script>

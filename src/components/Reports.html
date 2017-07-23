@@ -1,9 +1,57 @@
 <div>
-  My Reports
+  <h2>My Reports</h2>
+  Last 30 days of spending, by category<br />
+  Tap a category to view transactions<br />
+  <section class='grid table-header'>
+    <div>Category</div>
+    <div>Total</div>
+  </section>
+  <!--TODO: this is a hack because for some reason,
+    the addition of the table-header messes up the display for this table.
+    It is probably related to the nested TransactionTable, but not sure why the CSS
+    is changing the way it handles even and odd n-th child selectors when an unrelated
+    section is added above-->
+  <section class='grid grid--transaction' style='display:none'></section>
+  {{#each Object.keys(categories) as category}}
+  <section class='grid grid--transaction' tabindex="100">
+    <div>{{category}}</div>
+    <div>{{formatAsCurrency(categories[category].total)}}</div>
+  </section>
+  <section class='grid grid--transaction transaction-details'>
+    <div>
+      <!--TODO: is there a pure CSS way to keep this section open when a child is selected? -->
+      Please view the Summary page to look at details of a specific transaction
+       <TransactionTable transactions={{categories[category].transactions}} processing={{false}}> 
+    </div>
+  </section>
+  {{/each}}
 </div>
 
 <script>
-  export default {
+  import TransactionTable from './TransactionTable';
+  const calculateCategoryTotals = require('../calculateCategoryTotals');
+  const formatAsCurrency = require('../formatAsCurrency');
+  const formatDate = require('../formatDate');
 
+  export default {
+    data() {
+      return {
+        transactions: []
+      }
+    },
+    computed: {
+      categories: (transactions) => calculateCategoryTotals(transactions)
+    },
+    helpers: {
+      formatAsCurrency,
+      formatDate
+    },
+    components: {
+      TransactionTable
+    },
+    oncreate() {
+      console.log(this.get('transactions'));
+      console.log(this.get('categories'));
+    }
   }
 </script>
