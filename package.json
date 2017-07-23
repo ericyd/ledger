@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "start:prod": "NODE_ENV=production node server.js",
-    "test": "ava",
+    "test": "ava \"./test/**/*.test.js\" ",
     "build": "webpack",
     "build:prod": "NODE_ENV=production webpack",
     "prettier": "prettier --write --single-quote",
