@@ -114,7 +114,11 @@
     },
     oncreate() {
       // bind flatpickr to #date
-      flatpickr("#date", {altInput: true})
+      flatpickr("#date", {
+        altInput: true,
+        // 4 digit year, 2-digit month, 2-digit day, 24-hour hours, 2-digit minutes, 2-digit seconds
+        dateFormat: 'Y-m-d H:i:S'
+      })
     }
   }
 </script>

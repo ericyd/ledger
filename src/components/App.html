@@ -1,6 +1,8 @@
 <!--.container is required for push menu styling-->
 <div id='main' class='container'>
-  <button class="btn--secondary" on:click="toggleSidebar()">Menu</button>
+  <button class="btn--secondary btn--menu btn--hamburger" on:click="toggleSidebar()">
+    <Menu />
+  </button>
   <Sidebar
     auth={{auth}}
     links={{links}}
@@ -26,6 +28,7 @@
   import Sidebar from './Sidebar';
   import Charts from './Charts';
   import notfound from './notfound';
+  import Menu from './icons/Menu';
   const axios = require('axios');
   const page = require('page');
 
@@ -35,6 +38,10 @@
     if (aDate < bDate) return 1;
     if (aDate > bDate) return -1;
     return 0
+  }
+
+  function renderUserSummary () {
+
   }
 
   export default {
@@ -120,9 +127,6 @@
           this.set({err: err})
         })
       }
-
-      // go to homepage, in case it wasn't already done
-      page('/')
     },
     data() {
       return {
@@ -148,7 +152,8 @@
     components: {
       UserSummary,
       LoginSignup,
-      Sidebar
+      Sidebar,
+      Menu
     },
     methods: {
       handleLogOut() {
@@ -162,13 +167,14 @@
         page(event.href);
       },
       handleAuth(event) {
+        localStorage.setItem('auth', event.id);
         this.set({
           balance: event.balance,
           transactions: event.transactions,
           name: event.name,
           auth: event.id
         });
-        localStorage.setItem('auth', event.id);
+        page('/');
       }
     }
   }

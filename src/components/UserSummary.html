@@ -1,7 +1,7 @@
 <section class='grid grid--medium'>
   <div>
     Hi {{#if name === ''}}
-      <Spinner />
+       <Spinner /> 
     {{else}}
       {{name}}. Your balance is:
       <h2>{{formatAsCurrency(balance)}}</h2>
@@ -15,7 +15,11 @@
   </div>
   <div>
     Transactions: <br />
+    {{#if transactions.length === 0}}
+    <Spinner />
+    {{else}}
     <TransactionTable transactions={{transactions}} processing={{processing}}/>
+    {{/if}}
   </div>
 </section>
 

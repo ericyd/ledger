@@ -1,7 +1,22 @@
-// button, input[type="button"], input[type="submit"], .btn {
-
-// }
+// fix the way cutestrap displays buttons with multi-line text
+button, input[type="button"], input[type="submit"], .btn {
+  height: initial;
+  line-height: 1.8rem;
+  padding: 1.6rem 3rem;
+}
 
 .btn--secondary {
   border: 1px solid $body-color;
+}
+
+// offset from the edge of the screen
+.btn--menu {
+  padding: 1em 1em;
+  line-height: 0;
+
+  &.btn--hamburger {
+    position: relative;
+    left: 1em;
+    top: 1em;
+  }
 }

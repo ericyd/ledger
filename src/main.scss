@@ -16,6 +16,8 @@ $link--active: #7CB7DE;
 // Personal additions
 $body-bg: #fdfdfd;
 $body-color: #222;
+$error-bg: #F79386;
+$error-border: darken($error-bg, 15%);
 
 //
 // Fonts
@@ -65,3 +67,4 @@ $body-height: 100vh;
 @import './css/table';
 @import './css/spinner';
 @import './css/sidebar';
+@import './css/error';

@@ -1605,7 +1605,8 @@ Styleguide 1.2
   padding: 2.4rem 2rem; }
 
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font: inherit; }
 
 body {
   background-color: #fdfdfd;
@@ -1614,8 +1615,23 @@ body {
 #app, #main, #views {
   min-height: 100vh; }
 
+button, input[type="button"], input[type="submit"], .btn, [type=button],
+[type=submit],
+button {
+  height: initial;
+  line-height: 1.8rem;
+  padding: 1.6rem 3rem; }
+
 .btn--secondary {
   border: 1px solid #222; }
+
+.btn--menu {
+  padding: 1em 1em;
+  line-height: 0; }
+  .btn--menu.btn--hamburger {
+    position: relative;
+    left: 1em;
+    top: 1em; }
 
 .grid--transaction div {
   border: 1px solid #dededf; }
@@ -1706,5 +1722,12 @@ https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398
   border-bottom: 1px solid #dededf; }
   .sidebar__link:last-of-type {
     margin-bottom: 1em; }
+
+.error {
+  display: block;
+  background: #F79386;
+  border: 1px solid #f2533e;
+  padding: 0.5em;
+  margin-bottom: 0.5em; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

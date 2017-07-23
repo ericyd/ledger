@@ -1,6 +1,8 @@
 <div class="sidebar {{isExpanded ? 'expanded' : 'collapsed'}}">
   <!--Close button-->
-  <button class="btn--secondary" on:click="toggleSidebar()">X</button>
+  <button class="btn--secondary btn--menu" on:click="toggleSidebar()">
+    <Close />
+  </button>
 
   <!--Display each link-->
   {{#each links as link}}
@@ -19,6 +21,8 @@
 </div>
 
 <script>
+  import Close from './icons/Close';
+
   export default {
     data() {
       return {}
@@ -36,6 +40,9 @@
         this.fire('navigate', {href: event.target.pathname})
         event.preventDefault();
       }
+    },
+    components: {
+      Close
     }
   }
 </script>
