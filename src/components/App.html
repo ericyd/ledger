@@ -26,7 +26,7 @@
   import LoginSignup from './LoginSignup';
   import UserSummary from './UserSummary';
   import Sidebar from './Sidebar';
-  import Charts from './Charts';
+  import Reports from './Reports';
   import notfound from './notfound';
   import Menu from './icons/Menu';
   const axios = require('axios');
@@ -65,13 +65,13 @@
         });
         self.set({ view: userSummary });
       })
-      page('/my-charts', function () {
+      page('/my-reports', function () {
         // destroy any existing components
         const view = self.get('view');
         if (view) view.destroy();
 
         // generate new component and set it as the current view
-        const charts = new Charts({
+        const reports = new Reports({
           target: document.getElementById('views'),
           data: {
             balance: self.get('balance'),
@@ -79,7 +79,7 @@
             name: self.get('name')
           }
         })
-        self.set({ view: charts });
+        self.set({ view: reports });
       })
       page('*', function () {
         const view = self.get('view');
@@ -141,8 +141,8 @@
             href: '/'
           },
           {
-            text: 'Charts',
-            href: '/my-charts'
+            text: 'Reports',
+            href: '/my-reports'
           }
         ],
         isExpanded: false,
