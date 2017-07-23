@@ -12,7 +12,7 @@
   {{/each}}
 
   <!--Include a log out button if authenticated-->
-  {{#if auth}}
+  {{#if userId}}
   <button on:click="handleLogOut()" class="btn--secondary">
     Log out
   </button>

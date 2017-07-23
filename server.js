@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const router = express.Router();
+const passport = require('passport');
 const users = require('./controllers/users');
 const transactions = require('./controllers/transactions');
 
@@ -22,12 +23,15 @@ app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use('/dist', express.static('dist'));
 
+// Use the passport package in our application
+app.use(passport.initialize());
+
 //
 // Define JSON routes
 //
 router.route('/users').post(users.addUser);
-router.route('/users/:userId').get(users.getNameAndBalance);
 router.route('/login').post(users.authenticateUser);
+router.route('/users/:userId').get(users.getNameAndBalance);
 router
   .route('/transactions/:userId')
   .get(transactions.getTransactionsByUserId)

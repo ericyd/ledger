@@ -1,8 +1,12 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jwt-simple');
+const secret = process.env.JWT_SECRET;
 const User = require('../models/user');
 const Transaction = require('../models/transaction');
+// const getToken = require('./getToken')
 
 // TODO: find a way to refactor the call back. Everytime I get an error, I have the same pattern
+// TODO: refactor to use static methods on the schemas
 
 exports.authenticateUser = function(req, res) {
   // TODO: could this be improved?
@@ -24,9 +28,12 @@ exports.authenticateUser = function(req, res) {
                   if (err) {
                     res.sendStatus(500);
                   } else {
+                    // create jwt token for user
+                    const token = jwt.encode(user, secret);
                     res.json({
                       error: false,
                       message: 'look at you, loggin in like a pro',
+                      token: 'JWT ' + token,
                       id: user.id,
                       balance: user.balance,
                       transactions: transactions,
@@ -92,18 +99,23 @@ exports.addUser = function(req, res) {
 };
 
 exports.getNameAndBalance = function(req, res) {
-  User.findById(req.params.userId, ['name', 'balance'], (err, user) => {
+  // const token = getToken(req.headers);
+  // if (token) {
+  // const decoded = jwt.decode(token, secret);
+  User.findById(req.body.userId, ['name', 'balance'], (err, user) => {
     if (err) {
-      res
+      return res
         .status(500)
         .json({ error: true, message: 'Could not retrieve user details!' });
-    } else {
-      res.json({
-        error: false,
-        message: 'got user details',
-        name: user ? user.name : '',
-        balance: user ? user.balance : 0
-      });
     }
+    return res.json({
+      error: false,
+      message: 'got user details',
+      name: user ? user.name : '',
+      balance: user ? user.balance : 0
+    });
   });
+  // }
+
+  // return res.status(403).send({error: true, message: 'No token provided.'});
 };

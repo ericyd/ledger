@@ -91,12 +91,13 @@
         // clear form and set category to default (disabled options will not select with `reset()`)
         event.target.reset();
 
-        axios.post(`/transactions/${localStorage.getItem('auth')}`, {
-          amount,
-          location,
-          category,
-          transactionDate,
-          notes
+        axios.post(`/transactions/${localStorage.getItem('userId')}`, {
+          amount: amount,
+          location: location,
+          category: category,
+          transactionDate: transactionDate,
+          note: notes,
+          token: localStorage.getItem('token')
         }).then(response => {
           self.fire('successTransactionAdd', {
             amount,
