@@ -98,24 +98,13 @@ exports.addUser = function(req, res) {
   });
 };
 
+// this is authenticated with jwt, so can simply return relevant details from req.user
 exports.getNameAndBalance = function(req, res) {
-  // const token = getToken(req.headers);
-  // if (token) {
-  // const decoded = jwt.decode(token, secret);
-  User.findById(req.body.userId, ['name', 'balance'], (err, user) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({ error: true, message: 'Could not retrieve user details!' });
-    }
-    return res.json({
-      error: false,
-      message: 'got user details',
-      name: user ? user.name : '',
-      balance: user ? user.balance : 0
-    });
-  });
-  // }
-
-  // return res.status(403).send({error: true, message: 'No token provided.'});
+  res.json({
+    error: false,
+    success: true,
+    message: 'got user details',
+    name: req.user.name,
+    balance: req.user.balance
+  })
 };

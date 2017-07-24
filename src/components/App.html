@@ -108,7 +108,7 @@
 
       // if authenticated, populate user data and navigate to userSummary
       if (this.get('token') && this.get('userId')) {
-        axios.get(`/users/${this.get('userId')}`, {
+        axios.get('/users/getNameAndBalance', {
           headers: {
             'Authorization': localStorage.getItem('token')
           }
@@ -135,6 +135,8 @@
     data() {
       return {
         userId: localStorage.getItem('userId'),
+        // convert to boolean
+        token: !!(localStorage.getItem('token')),
         balance: 0,
         transactions: [],
         name: '',

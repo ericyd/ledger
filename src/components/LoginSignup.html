@@ -83,7 +83,8 @@
               balance: response.data.balance,
               transactions: response.data.transactions,
               id: response.data.id,
-              name: response.data.name
+              name: response.data.name,
+              token: response.data.token
             });
           } else {
             self.set({err: response.data.error});

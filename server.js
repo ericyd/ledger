@@ -7,9 +7,14 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const router = express.Router();
-const passport = require('passport');
 const users = require('./controllers/users');
 const transactions = require('./controllers/transactions');
+
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+// const User = require('./models/user')
+const MyStrategy = require('./config/passport.js')
 
 //
 // Set up server
@@ -26,12 +31,41 @@ app.use('/dist', express.static('dist'));
 // Use the passport package in our application
 app.use(passport.initialize());
 
+MyStrategy(passport)
+
+
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) {
+//         return done(null, false, { message: 'Incorrect username.' });
+//       }
+//       if (!user.validPassword(password)) {
+//         return done(null, false, { message: 'Incorrect password.' });
+//       }
+//       return done(null, user);
+//     });
+//   }
+// ));
+
+
+
+// app.post('/login',
+//   passport.authenticate('local'),
+//   function(req, res) {
+
+//   }
+// );
+
+
+
 //
 // Define JSON routes
 //
 router.route('/users').post(users.addUser);
 router.route('/login').post(users.authenticateUser);
-router.route('/users/:userId').get(users.getNameAndBalance);
+router.route('/users/getNameAndBalance').get(passport.authenticate('jwt', {session: false}), users.getNameAndBalance);
 router
   .route('/transactions/:userId')
   .get(transactions.getTransactionsByUserId)
