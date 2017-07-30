@@ -29,7 +29,11 @@ A simple ledger to keep track of moneys
 
 ## Security
 
-Please note that I am not trained in web security, and even *I* know this app is not very secure.  It uses a simple authentication scheme, and doesn't really do any verification of that later.  So, implement your own authentication before using this with sensitive data.
+This application uses [passportjs] and [JSON web tokens] to handle user authentication.
+It uses [bcrypt] for password encryption.
+
+I am not trained in web security.
+Any recommendations on authentication or encryption procedures used in this app are appreciated.
 
 ## Dev guide
 
@@ -45,3 +49,6 @@ Please note that I am not trained in web security, and even *I* know this app is
 [Svelte]: http://svelte.technology
 [Express]: http://expressjs.com/
 [ava]: https://github.com/avajs/ava
+[passportjs]: http://passportjs.org/
+[JSON web tokens]: https://www.npmjs.com/package/passport-jwt
+[bcrypt]: https://github.com/kelektiv/node.bcrypt.js
