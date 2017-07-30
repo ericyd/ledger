@@ -119,13 +119,18 @@
             balance: userRes.data.balance
           })
           // once received user data, get transactions
-          return axios.get(`/transactions/${this.get('userId')}`)
+          return axios.get(`/transactions/${this.get('userId')}`, {
+            headers: {
+              'Authorization': localStorage.getItem('token')
+            }
+          });
         })
         .then(transactionRes => {
           const sortedTransactions = transactionRes.data.transactions.sort(sortByDateDesc)
           this.set({
             transactions: sortedTransactions
           })
+          page('/');
         })
         .catch(err => {
           this.set({err: err})

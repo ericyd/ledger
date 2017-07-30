@@ -21,7 +21,7 @@
   <!--Category-->
   <label class="select" for="category">
     <select name="category" id="category">
-      <option selected="selected" value="Not specified">Category (optional)</option>
+      <!-- <option selected="selected" value="Not specified">Category (optional)</option> -->
       {{#each categories as category}}
       <option value="{{category}}">{{category}}</option>
       {{/each}}
@@ -54,6 +54,7 @@
     data() {
       return {
         categories: [
+          "Other",
           "Groceries",
           "Bills (rent, utilities, etc)",
           "Eating out",
@@ -62,8 +63,7 @@
           "House stuff",
           "Gifts/Donations",
           "Pay day",
-          "Car stuff",
-          "Other"
+          "Car stuff"
         ]
       }
     },
@@ -98,7 +98,12 @@
           transactionDate: transactionDate,
           note: notes,
           token: localStorage.getItem('token')
-        }).then(response => {
+        }, {
+          headers: {
+            'Authorization': localStorage.getItem('token')
+          }
+        }
+      ).then(response => {
           self.fire('successTransactionAdd', {
             amount,
             location,

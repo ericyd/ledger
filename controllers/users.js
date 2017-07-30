@@ -3,7 +3,6 @@ const jwt = require('jwt-simple');
 const secret = process.env.JWT_SECRET;
 const User = require('../models/user');
 const Transaction = require('../models/transaction');
-// const getToken = require('./getToken')
 
 // TODO: find a way to refactor the call back. Everytime I get an error, I have the same pattern
 // TODO: refactor to use static methods on the schemas
@@ -83,10 +82,13 @@ exports.addUser = function(req, res) {
           if (err) {
             res.sendStatus(500);
           } else {
+            // create jwt token for user
+            const token = jwt.encode(user, secret);
             res.json({
               error: false,
               message: 'User added',
               id: user.id,
+              token: 'JWT ' + token,
               balance: user.balance,
               transactions: [],
               name: user.name
@@ -100,11 +102,18 @@ exports.addUser = function(req, res) {
 
 // this is authenticated with jwt, so can simply return relevant details from req.user
 exports.getNameAndBalance = function(req, res) {
-  res.json({
-    error: false,
-    success: true,
-    message: 'got user details',
-    name: req.user.name,
-    balance: req.user.balance
-  });
+  if (req.user) {
+    return res.json({
+      error: false,
+      success: true,
+      message: 'got user details',
+      name: req.user.name,
+      balance: req.user.balance
+    });
+  }
+  return res.json({
+    error: true,
+    success: false,
+    message: 'user not found'
+  })
 };

@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 exports.getTransactionsByUserId = function(req, res) {
   Transaction.getTransactionsByUserId(
-    req.params.userId,
+    req.user._id,
     (err, transactions) => {
       if (err) {
         res.sendStatus(500);
@@ -19,23 +19,16 @@ exports.getTransactionsByUserId = function(req, res) {
 };
 
 exports.addTransaction = function(req, res) {
-  // get user for balance
-  // console.log('adding transaction')
-  User.findById(req.params.userId, function(err, user) {
-    if (err)
-      return res
-        .status(500)
-        .json({ error: true, errormsgs: ['Database error finding user'] });
-
+  if (req.user) {
     // compute data for transaction and user updates
-    const currentBalance = Number(user.balance) + Number(req.body.amount);
+    const currentBalance = Number(req.user.balance) + Number(req.body.amount);
     const now = new Date();
 
     // TODO: add validation
     const transactionData = {
       location: req.body.location,
       amount: Number(req.body.amount),
-      userId: req.params.userId,
+      userId: req.user._id,
       transactionDate: new Date(req.body.transactionDate),
       category: req.body.category,
       notes: req.body.notes,
@@ -53,9 +46,10 @@ exports.addTransaction = function(req, res) {
           errormsgs: ['Database error saving the transaction', err]
         });
 
+      // const user = new User(req.user);
       // update user balance
-      user.balance = currentBalance;
-      user.save(function(err) {
+      req.user.balance = currentBalance;
+      req.user.save(function(err) {
         if (err)
           return res.status(500).json({
             error: true,
@@ -64,7 +58,10 @@ exports.addTransaction = function(req, res) {
         return res.json({ error: false, message: 'Data added successfully' });
       });
     });
-  });
+  } else {
+    return res
+      .json({ error: true, success: false, errormsgs: ['Database error finding user'] });
+  }
 };
 
 exports.updateTransaction = function(req, res) {
