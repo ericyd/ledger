@@ -115,5 +115,5 @@ exports.getNameAndBalance = function(req, res) {
     error: true,
     success: false,
     message: 'user not found'
-  })
+  });
 };

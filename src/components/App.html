@@ -108,6 +108,9 @@
 
       // if authenticated, populate user data and navigate to userSummary
       if (this.get('token') && this.get('userId')) {
+        // load up the user summary
+        page('/');
+        // load up the data
         axios.get('/users/getNameAndBalance', {
           headers: {
             'Authorization': localStorage.getItem('token')
@@ -130,7 +133,6 @@
           this.set({
             transactions: sortedTransactions
           })
-          page('/');
         })
         .catch(err => {
           this.set({err: err})

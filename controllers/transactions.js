@@ -2,20 +2,17 @@ const Transaction = require('../models/transaction');
 const User = require('../models/user');
 
 exports.getTransactionsByUserId = function(req, res) {
-  Transaction.getTransactionsByUserId(
-    req.user._id,
-    (err, transactions) => {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        res.json({
-          error: false,
-          message: 'found the data',
-          transactions: transactions
-        });
-      }
+  Transaction.getTransactionsByUserId(req.user._id, (err, transactions) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.json({
+        error: false,
+        message: 'found the data',
+        transactions: transactions
+      });
     }
-  );
+  });
 };
 
 exports.addTransaction = function(req, res) {
@@ -59,8 +56,11 @@ exports.addTransaction = function(req, res) {
       });
     });
   } else {
-    return res
-      .json({ error: true, success: false, errormsgs: ['Database error finding user'] });
+    return res.json({
+      error: true,
+      success: false,
+      errormsgs: ['Database error finding user']
+    });
   }
 };
 

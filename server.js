@@ -42,9 +42,18 @@ router
   );
 router
   .route('/transactions/:userId')
-  .get(passport.authenticate('jwt', { session: false }), transactions.getTransactionsByUserId)
-  .post(passport.authenticate('jwt', { session: false }), transactions.addTransaction)
-  .put(passport.authenticate('jwt', { session: false }), transactions.updateTransaction);
+  .get(
+    passport.authenticate('jwt', { session: false }),
+    transactions.getTransactionsByUserId
+  )
+  .post(
+    passport.authenticate('jwt', { session: false }),
+    transactions.addTransaction
+  )
+  .put(
+    passport.authenticate('jwt', { session: false }),
+    transactions.updateTransaction
+  );
 
 //
 // Assume client side routing
