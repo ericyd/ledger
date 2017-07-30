@@ -11,7 +11,7 @@ const User = require('../models/user');
 const secret = process.env.JWT_SECRET;
 
 module.exports = function(passport) {
-  var opts = {}
+  var opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
   opts.secretOrKey = secret;
   passport.use(

@@ -106,5 +106,5 @@ exports.getNameAndBalance = function(req, res) {
     message: 'got user details',
     name: req.user.name,
     balance: req.user.balance
-  })
+  });
 };
